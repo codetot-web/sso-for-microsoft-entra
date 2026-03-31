@@ -61,6 +61,7 @@ class PKCE {
 		$digest = hash( 'sha256', $verifier, true );
 
 		// BASE64URL encoding: swap +/ → -_ and strip trailing padding.
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Required for PKCE challenge generation per RFC 7636
 		return rtrim( strtr( base64_encode( $digest ), '+/', '-_' ), '=' );
 	}
 }

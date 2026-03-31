@@ -53,26 +53,26 @@ function messo_to_kebab_case( string $identifier ): string {
  * so other autoloaders (e.g. Composer) can handle them.
  */
 spl_autoload_register(
-	function ( string $class ) {
+	function ( string $class_name ) {
 		// Root namespace prefix for this plugin.
-		$prefix = 'MicrosoftEntraSSO\\';
+		$prefix        = 'MicrosoftEntraSSO\\';
 		$prefix_length = strlen( $prefix );
 
 		// Bail early when the class does not belong to our namespace.
-		if ( strncmp( $prefix, $class, $prefix_length ) !== 0 ) {
+		if ( strncmp( $prefix, $class_name, $prefix_length ) !== 0 ) {
 			return;
 		}
 
 		// Strip the namespace prefix to get the relative class identifier,
 		// e.g. "Auth\OidcClient" from "MicrosoftEntraSSO\Auth\OidcClient".
-		$relative = substr( $class, $prefix_length );
+		$relative = substr( $class_name, $prefix_length );
 
 		// Split on namespace separators to produce path segments.
 		$parts = explode( '\\', $relative );
 
 		// The last segment is the class name; everything before it is the
 		// sub-directory path within includes/.
-		$class_name = array_pop( $parts );
+		$short_name = array_pop( $parts );
 
 		// Convert each directory segment to kebab-case.
 		$dir_segments = array_map( 'messo_to_kebab_case', $parts );
@@ -80,7 +80,7 @@ spl_autoload_register(
 		// Build the file name using WordPress convention: class-{kebab-name}.php
 		// Replace underscores with hyphens so WP_Foo → class-wp-foo.php matches
 		// the WordPress file-naming standard for underscore-separated class names.
-		$file_name = 'class-' . str_replace( '_', '-', messo_to_kebab_case( $class_name ) ) . '.php';
+		$file_name = 'class-' . str_replace( '_', '-', messo_to_kebab_case( $short_name ) ) . '.php';
 
 		// Assemble the absolute path.
 		$path_parts = array_merge(
@@ -88,7 +88,7 @@ spl_autoload_register(
 			$dir_segments,
 			array( $file_name )
 		);
-		$file = implode( DIRECTORY_SEPARATOR, $path_parts );
+		$file       = implode( DIRECTORY_SEPARATOR, $path_parts );
 
 		if ( file_exists( $file ) ) {
 			require_once $file;

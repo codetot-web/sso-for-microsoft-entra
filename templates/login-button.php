@@ -22,9 +22,9 @@ $btn_css_class = ( 'dark' === $style_class ) ? 'messo-btn messo-btn-dark' : 'mes
 <div class="messo-divider"><?php esc_html_e( 'Or', 'microsoft-entra-sso' ); ?></div>
 
 <div class="messo-btn-wrap">
-	<a href="<?php echo $sso_url; // Already esc_url()'d by Login_Button::render(). ?>"
-	   class="<?php echo esc_attr( $btn_css_class ); ?>"
-	   role="button"
+	<a href="<?php echo esc_url( $sso_url ); // URL already validated by Login_Button::render(). ?>"
+		class="<?php echo esc_attr( $btn_css_class ); ?>"
+		role="button"
 	>
 		<?php
 		/*
@@ -42,11 +42,11 @@ $btn_css_class = ( 'dark' === $style_class ) ? 'messo-btn messo-btn-dark' : 'mes
 		 */
 		?>
 		<svg xmlns="http://www.w3.org/2000/svg"
-		     width="21"
-		     height="21"
-		     viewBox="0 0 21 21"
-		     aria-hidden="true"
-		     focusable="false"
+			width="21"
+			height="21"
+			viewBox="0 0 21 21"
+			aria-hidden="true"
+			focusable="false"
 		>
 			<rect x="1"  y="1"  width="9" height="9" fill="#f25022"/>
 			<rect x="11" y="1"  width="9" height="9" fill="#7fba00"/>
@@ -60,7 +60,7 @@ $btn_css_class = ( 'dark' === $style_class ) ? 'messo-btn messo-btn-dark' : 'mes
 
 <?php if ( $allow_local ) : ?>
 <div class="messo-local-login">
-	<a href="<?php echo $local_url; // Already esc_url()'d by Login_Button::render(). ?>">
+	<a href="<?php echo esc_url( $local_url ); // URL already validated by Login_Button::render(). ?>">
 		<?php esc_html_e( 'Use local login instead', 'microsoft-entra-sso' ); ?>
 	</a>
 </div>

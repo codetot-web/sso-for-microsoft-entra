@@ -88,14 +88,14 @@ class Rate_Limiter {
 
 		if ( null === $data || ( $now - $data['first_attempt'] ) >= $window ) {
 			// Start a fresh window.
-			$data = [
+			$data = array(
 				'count'         => 1,
 				'first_attempt' => $now,
-			];
-			$ttl = $window;
+			);
+			$ttl  = $window;
 		} else {
 			// Increment within the existing window.
-			$data['count']++;
+			++$data['count'];
 			// Remaining TTL = window end minus now.
 			$ttl = max( 1, (int) ( $data['first_attempt'] + $window - $now ) );
 		}

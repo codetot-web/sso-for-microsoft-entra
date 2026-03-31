@@ -66,7 +66,7 @@ class XML_Security {
 		// On PHP 8.0+ libxml2 >= 2.9.0 already blocks this; the function is
 		// deprecated and emits a notice, so the @ suppressor is appropriate.
 		if ( PHP_VERSION_ID < 80000 ) {
-			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
+			// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, Generic.PHP.DeprecatedFunctions.Deprecated -- Required for PHP < 8.0 XXE prevention
 			@libxml_disable_entity_loader( true );
 		}
 
@@ -138,10 +138,10 @@ class XML_Security {
 		// ----- Remote fetch ------------------------------------------------- //
 		$response = wp_remote_get(
 			$url,
-			[
+			array(
 				'timeout'    => 10,
 				'user-agent' => 'MicrosoftEntraSSO/' . MESSO_VERSION . '; WordPress/' . get_bloginfo( 'version' ),
-			]
+			)
 		);
 
 		if ( is_wp_error( $response ) ) {

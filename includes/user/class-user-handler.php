@@ -113,8 +113,8 @@ class User_Handler {
 		$username = self::extract_username( $claims, $email );
 
 		// Ensure the username is unique by appending a counter if needed.
-		$base     = $username;
-		$counter  = 1;
+		$base    = $username;
+		$counter = 1;
 		while ( username_exists( $username ) ) {
 			$username = $base . $counter;
 			++$counter;

@@ -111,10 +111,10 @@ class Settings_Page {
 			'messo-admin',
 			'messo_admin',
 			array(
-				'ajax_url'       => admin_url( 'admin-ajax.php' ),
-				'nonce'          => wp_create_nonce( 'messo_admin_nonce' ),
-				'dismiss_nonce'  => wp_create_nonce( 'messo_dismiss_notice' ),
-				'strings'        => array(
+				'ajax_url'      => admin_url( 'admin-ajax.php' ),
+				'nonce'         => wp_create_nonce( 'messo_admin_nonce' ),
+				'dismiss_nonce' => wp_create_nonce( 'messo_dismiss_notice' ),
+				'strings'       => array(
 					'importing'    => __( 'Importing…', 'microsoft-entra-sso' ),
 					'import_done'  => __( 'Metadata imported successfully.', 'microsoft-entra-sso' ),
 					'import_error' => __( 'Import failed. Please check the URL and try again.', 'microsoft-entra-sso' ),

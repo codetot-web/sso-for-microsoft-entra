@@ -56,12 +56,7 @@ class Token_Validator {
 	 *  5. Return the payload claims array on success.
 	 *
 	 * @param string $jwt      Compact serialised JWT (header.payload.sig).
-	 * @param array  $expected {
-	 *     @type string $client_id Application (client) ID used as audience.
-	 *     @type string $issuer    Expected issuer (iss) value.
-	 *     @type string $jwks_uri  URI of the issuer's JWKS document.
-	 *     @type string $nonce     Nonce value that was sent in the auth request.
-	 * }
+	 * @param array  $expected Array of expected values: client_id, issuer, jwks_uri, nonce.
 	 *
 	 * @return array|\WP_Error Payload claims on success, WP_Error on failure.
 	 */
@@ -306,11 +301,12 @@ class Token_Validator {
 				continue;
 			}
 
-			// openssl_verify() returns 1 (valid), 0 (invalid), or -1 (error).
+			// Verify: openssl_verify returns 1 on success, 0 on failure, -1 on error.
 			$result = openssl_verify( $signing_input, $signature, $public_key, OPENSSL_ALGO_SHA256 );
 
 			// Free the key resource explicitly (pre-PHP 8.0 compatibility).
-			if ( is_resource( $public_key ) ) {
+			if ( PHP_VERSION_ID < 80000 && is_resource( $public_key ) ) {
+				// phpcs:ignore Generic.PHP.DeprecatedFunctions.Deprecated -- Required for PHP 7.4 compatibility; deprecated in PHP 8.0
 				openssl_free_key( $public_key );
 			}
 
@@ -448,15 +444,15 @@ class Token_Validator {
 		// Step 4: Build the AlgorithmIdentifier SEQUENCE.
 		//
 		// AlgorithmIdentifier ::= SEQUENCE {
-		//   algorithm  OBJECT IDENTIFIER,   -- 1.2.840.113549.1.1.1 (rsaEncryption)
-		//   parameters ANY OPTIONAL         -- NULL for RSA
+		// algorithm  OBJECT IDENTIFIER,   -- 1.2.840.113549.1.1.1 (rsaEncryption)
+		// parameters ANY OPTIONAL         -- NULL for RSA
 		// }
 		//
 		// OID 1.2.840.113549.1.1.1 in DER: 2a 86 48 86 f7 0d 01 01 01
 		// ------------------------------------------------------------------
-		$oid_der       = "\x06\x09\x2a\x86\x48\x86\xf7\x0d\x01\x01\x01"; // OID tag+len+value
-		$null_der      = "\x05\x00";                                        // NULL
-		$algorithm_id  = self::der_sequence( $oid_der . $null_der );
+		$oid_der      = "\x06\x09\x2a\x86\x48\x86\xf7\x0d\x01\x01\x01"; // OID tag+len+value.
+		$null_der     = "\x05\x00";                                        // NULL.
+		$algorithm_id = self::der_sequence( $oid_der . $null_der );
 
 		// ------------------------------------------------------------------
 		// Step 5: Wrap AlgorithmIdentifier + BIT STRING in SubjectPublicKeyInfo SEQUENCE.
@@ -467,7 +463,7 @@ class Token_Validator {
 		// Step 6: Base64-encode and wrap in PEM headers.
 		// ------------------------------------------------------------------
 		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-		$b64  = chunk_split( base64_encode( $spki ), 64, "\n" );
+		$b64 = chunk_split( base64_encode( $spki ), 64, "\n" );
 
 		return "-----BEGIN PUBLIC KEY-----\n" . $b64 . "-----END PUBLIC KEY-----\n";
 	}
@@ -538,7 +534,7 @@ class Token_Validator {
 	/**
 	 * Decode a base64url-encoded string to raw binary.
 	 *
-	 * base64url differs from standard base64 in two character substitutions:
+	 * The base64url encoding differs from standard base64 in two character substitutions:
 	 *   '-' → '+'  and  '_' → '/'
 	 * and the omission of '=' padding. We restore standard base64 format
 	 * before decoding with the built-in base64_decode().
@@ -552,7 +548,7 @@ class Token_Validator {
 		$base64 = strtr( $data, '-_', '+/' );
 
 		// Add padding if necessary so base64_decode() doesn't fail.
-		$pad    = strlen( $base64 ) % 4;
+		$pad = strlen( $base64 ) % 4;
 		if ( $pad > 0 ) {
 			$base64 .= str_repeat( '=', 4 - $pad );
 		}

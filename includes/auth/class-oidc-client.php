@@ -59,9 +59,9 @@ class OIDC_Client {
 		// Security: state prevents CSRF; nonce prevents token replay;
 		// PKCE prevents code interception. All three must be used together.
 		// ------------------------------------------------------------------
-		$state         = State_Manager::create_state();
-		$nonce         = State_Manager::create_nonce();
-		$pkce_verifier = PKCE::generate_verifier();
+		$state          = State_Manager::create_state();
+		$nonce          = State_Manager::create_nonce();
+		$pkce_verifier  = PKCE::generate_verifier();
 		$pkce_challenge = PKCE::generate_challenge( $pkce_verifier );
 
 		// ------------------------------------------------------------------
@@ -73,8 +73,8 @@ class OIDC_Client {
 		// ------------------------------------------------------------------
 		// Step 4: Assemble the authorization URL.
 		// ------------------------------------------------------------------
-		$plugin      = Plugin::get_instance();
-		$client_id   = (string) $plugin->get_option( Plugin::OPTION_CLIENT_ID, '' );
+		$plugin    = Plugin::get_instance();
+		$client_id = (string) $plugin->get_option( Plugin::OPTION_CLIENT_ID, '' );
 
 		/**
 		 * Filters the OIDC scopes requested during authorization.
@@ -281,7 +281,7 @@ class OIDC_Client {
 
 		$plugin = Plugin::get_instance();
 
-		$client_id     = (string) $plugin->get_option( Plugin::OPTION_CLIENT_ID, '' );
+		$client_id        = (string) $plugin->get_option( Plugin::OPTION_CLIENT_ID, '' );
 		$encrypted_secret = (string) $plugin->get_option( Plugin::OPTION_CLIENT_SECRET, '' );
 
 		// Security: decrypt the client secret immediately before use and do
@@ -437,8 +437,8 @@ class OIDC_Client {
 			if ( empty( $body[ $field ] ) ) {
 				return new \WP_Error(
 					'discovery_incomplete',
-					/* translators: %s: missing field name */
 					sprintf(
+						/* translators: %s: missing field name */
 						esc_html__( 'The discovery document is missing the required field: %s.', 'microsoft-entra-sso' ),
 						esc_html( $field )
 					)

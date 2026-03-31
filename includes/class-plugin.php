@@ -215,11 +215,11 @@ class Plugin {
 	 * Wraps get_option() so callers throughout the codebase always use the
 	 * correct option name prefix without hard-coding it.
 	 *
-	 * @param string $key     Option key — one of the OPTION_* class constants.
-	 * @param mixed  $default Value to return when the option is not set.
-	 * @return mixed Stored option value, or $default.
+	 * @param string $key           Option key — one of the OPTION_* class constants.
+	 * @param mixed  $default_value Value to return when the option is not set.
+	 * @return mixed Stored option value, or $default_value.
 	 */
-	public function get_option( string $key, $default = false ) {
-		return get_option( $key, $default );
+	public function get_option( string $key, $default_value = false ) {
+		return get_option( $key, $default_value );
 	}
 }

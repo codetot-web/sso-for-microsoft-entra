@@ -101,6 +101,7 @@ class SAML_Client {
 			);
 		}
 
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Required for SAML protocol
 		$encoded = base64_encode( $deflated );
 
 		// Create a state token to validate the relay state in the response.
@@ -140,6 +141,7 @@ class SAML_Client {
 		}
 
 		// Step 1: base64-decode.
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode -- Required for SAML protocol
 		$xml_string = base64_decode( $saml_response, true );
 
 		if ( false === $xml_string || '' === $xml_string ) {
@@ -215,10 +217,10 @@ class SAML_Client {
 	 * @return string Serialised AuthnRequest XML.
 	 */
 	private static function build_authn_request( array $config ): string {
-		$id             = '_' . bin2hex( random_bytes( 16 ) );
-		$issue_instant  = gmdate( 'Y-m-d\TH:i:s\Z' );
-		$acs_url        = esc_url( add_query_arg( 'action', 'entra_saml_acs', wp_login_url() ) );
-		$issuer         = esc_url( home_url() );
+		$id            = '_' . bin2hex( random_bytes( 16 ) );
+		$issue_instant = gmdate( 'Y-m-d\TH:i:s\Z' );
+		$acs_url       = esc_url( add_query_arg( 'action', 'entra_saml_acs', wp_login_url() ) );
+		$issuer        = esc_url( home_url() );
 
 		// Minimal AuthnRequest per SAML 2.0 core spec §3.4.
 		return '<?xml version="1.0" encoding="UTF-8"?>'
@@ -277,7 +279,7 @@ class SAML_Client {
 			return false;
 		}
 
-		/** @var \DOMElement $signature */
+		// @var \DOMElement $signature -- phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 		$signature = $sig_nodes->item( 0 );
 
 		// ── Step 1: extract SignatureValue ────────────────────────────────── //
@@ -287,8 +289,10 @@ class SAML_Client {
 			return false;
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API property
 		$sig_value_b64 = trim( $sig_value_nodes->item( 0 )->textContent );
-		$sig_value     = base64_decode( str_replace( array( "\n", "\r", ' ' ), '', $sig_value_b64 ), true );
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_decode -- Required for SAML protocol
+		$sig_value = base64_decode( str_replace( array( "\n", "\r", ' ' ), '', $sig_value_b64 ), true );
 
 		if ( false === $sig_value ) {
 			return false;
@@ -301,7 +305,7 @@ class SAML_Client {
 			return false;
 		}
 
-		/** @var \DOMElement $signed_info */
+		// @var \DOMElement $signed_info -- phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 		$signed_info = $signed_info_nodes->item( 0 );
 
 		// Security: use Exclusive C14N (#exc-c14n) per XML-DSig best practices.
@@ -350,7 +354,8 @@ class SAML_Client {
 
 		// Free the key resource (PHP 8+ handles this automatically via objects,
 		// but explicit free is required for PHP 7.4 compatibility).
-		if ( is_resource( $public_key ) ) {
+		if ( PHP_VERSION_ID < 80000 && is_resource( $public_key ) ) {
+			// phpcs:ignore Generic.PHP.DeprecatedFunctions.Deprecated -- Required for PHP 7.4 compatibility; deprecated in PHP 8.0
 			openssl_free_key( $public_key );
 		}
 
@@ -386,11 +391,12 @@ class SAML_Client {
 		}
 
 		foreach ( $ref_nodes as $ref_node ) {
-			/** @var \DOMElement $ref_node */
+			// @var \DOMElement $ref_node -- phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 			$uri = $ref_node->getAttribute( 'URI' );
 
 			// URI can be empty (reference to whole document) or '#ID'.
 			if ( '' === $uri ) {
+				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API property
 				$referenced_element = $doc->documentElement;
 			} elseif ( '#' === substr( $uri, 0, 1 ) ) {
 				$id                 = substr( $uri, 1 );
@@ -436,6 +442,7 @@ class SAML_Client {
 				}
 			}
 
+			// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Required for SAML protocol
 			$computed_digest = base64_encode( hash( $digest_algo, $c14n, true ) );
 
 			$digest_value_nodes = $xpath->query( 'ds:DigestValue', $ref_node );
@@ -444,6 +451,7 @@ class SAML_Client {
 				return false;
 			}
 
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API property
 			$stored_digest = trim( $digest_value_nodes->item( 0 )->textContent );
 
 			// Security: use hash_equals() for constant-time comparison to
@@ -488,7 +496,7 @@ class SAML_Client {
 			);
 		}
 
-		/** @var \DOMElement $conditions */
+		// @var \DOMElement $conditions -- phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 		$conditions = $conditions_nodes->item( 0 );
 		$now        = time();
 
@@ -529,11 +537,12 @@ class SAML_Client {
 			$audience_match = false;
 
 			foreach ( $audience_nodes as $audience_node ) {
+				// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API property
 				$audience = trim( $audience_node->textContent );
 
 				// Security: verify our entity ID is listed in the audience to
 				// prevent an assertion issued for another SP from being accepted.
-				if ( $audience === $entity_id || $audience === home_url() ) {
+				if ( $entity_id === $audience || home_url() === $audience ) {
 					$audience_match = true;
 					break;
 				}
@@ -588,6 +597,7 @@ class SAML_Client {
 			);
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API property
 		$claims['sub'] = trim( $name_id_nodes->item( 0 )->textContent );
 
 		// ── Attribute statements ──────────────────────────────────────────── //
@@ -605,7 +615,7 @@ class SAML_Client {
 
 		if ( $attr_nodes ) {
 			foreach ( $attr_nodes as $attr_node ) {
-				/** @var \DOMElement $attr_node */
+				// @var \DOMElement $attr_node -- phpcs:ignore Squiz.PHP.CommentedOutCode.Found
 				$attr_name = $attr_node->getAttribute( 'Name' );
 
 				// Map known scalar attributes.
@@ -613,6 +623,7 @@ class SAML_Client {
 					$value_nodes = $xpath->query( 'saml:AttributeValue', $attr_node );
 
 					if ( $value_nodes && $value_nodes->length > 0 ) {
+						// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API property
 						$claims[ $attribute_map[ $attr_name ] ] = trim( $value_nodes->item( 0 )->textContent );
 					}
 					continue;
@@ -626,6 +637,7 @@ class SAML_Client {
 						$groups = array();
 
 						foreach ( $value_nodes as $value_node ) {
+							// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API property
 							$groups[] = trim( $value_node->textContent );
 						}
 

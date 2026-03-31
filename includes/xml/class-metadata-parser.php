@@ -258,6 +258,7 @@ class Metadata_Parser {
 
 		foreach ( $nodes as $node ) {
 			// Strip all whitespace from the base64 string to normalise it.
+			// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API property
 			$cert = preg_replace( '/\s+/', '', $node->textContent );
 
 			if ( '' !== $cert ) {

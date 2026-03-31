@@ -206,7 +206,10 @@ class Login_Handler {
 
 		if ( is_wp_error( $claims ) ) {
 			// Log the internal error without exposing details to the browser.
-			error_log( 'MicrosoftEntraSSO OIDC callback error: ' . $claims->get_error_message() );
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional debug logging when WP_DEBUG is enabled
+				error_log( 'MicrosoftEntraSSO OIDC callback error: ' . $claims->get_error_message() );
+			}
 			self::redirect_with_error( 'oidc_callback_failed' );
 			return;
 		}
@@ -244,10 +247,11 @@ class Login_Handler {
 		// the outbound SAML request. Without this check an attacker could submit
 		// a captured SAMLResponse outside of an active login flow (IdP-initiated
 		// replay). The state is consumed on first use — replay is blocked.
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- SAML ACS receives POST from external IdP; CSRF protected by RelayState validation
 		$relay_state = isset( $_POST['RelayState'] )
 			? sanitize_text_field( wp_unslash( $_POST['RelayState'] ) )
 			: '';
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		if ( '' === $relay_state || ! State_Manager::validate_state( $relay_state ) ) {
 			self::redirect_with_error( 'saml_invalid_relay_state' );
@@ -272,7 +276,10 @@ class Login_Handler {
 		$claims = SAML_Client::handle_response( $saml_response );
 
 		if ( is_wp_error( $claims ) ) {
-			error_log( 'MicrosoftEntraSSO SAML ACS error: ' . $claims->get_error_message() );
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional debug logging when WP_DEBUG is enabled
+				error_log( 'MicrosoftEntraSSO SAML ACS error: ' . $claims->get_error_message() );
+			}
 			self::redirect_with_error( 'saml_response_failed' );
 			return;
 		}
@@ -307,8 +314,8 @@ class Login_Handler {
 		// Sign the user out of WordPress.
 		wp_logout();
 
-		$plugin  = Plugin::get_instance();
-		$tenant  = (string) $plugin->get_option( Plugin::OPTION_TENANT_ID, '' );
+		$plugin = Plugin::get_instance();
+		$tenant = (string) $plugin->get_option( Plugin::OPTION_TENANT_ID, '' );
 
 		// Only redirect to Entra logout when tenant is configured.
 		if ( '' !== $tenant ) {
@@ -410,7 +417,10 @@ class Login_Handler {
 		$user_id = User_Handler::find_or_create( $claims );
 
 		if ( is_wp_error( $user_id ) ) {
-			error_log( 'MicrosoftEntraSSO user provisioning error: ' . $user_id->get_error_message() );
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional debug logging when WP_DEBUG is enabled
+				error_log( 'MicrosoftEntraSSO user provisioning error: ' . $user_id->get_error_message() );
+			}
 			self::redirect_with_error( 'user_provision_failed' );
 			return;
 		}
@@ -472,10 +482,11 @@ class Login_Handler {
 	 * @return string Validated, safe redirect URL.
 	 */
 	private static function get_redirect_url(): string {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Standard WordPress redirect_to parameter; no nonce needed for this read-only URL parameter
 		$redirect_to = isset( $_REQUEST['redirect_to'] )
 			? wp_unslash( $_REQUEST['redirect_to'] )
 			: '';
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( '' !== $redirect_to ) {
 			// Security: wp_validate_redirect() only permits same-host URLs.
