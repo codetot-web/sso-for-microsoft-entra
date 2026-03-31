@@ -1,0 +1,90 @@
+/**
+ * Microsoft Entra SSO — Admin styles.
+ *
+ * Minimal supplementary styles; all WP admin UI relies on core admin CSS.
+ */
+
+/* --------------------------------------------------------------------------
+   Role mapping table
+   -------------------------------------------------------------------------- */
+.messo-role-mapping-table {
+	margin-top: 8px;
+	margin-bottom: 4px;
+	max-width: 700px;
+}
+
+.messo-role-mapping-table th,
+.messo-role-mapping-table td {
+	padding: 8px 10px;
+	vertical-align: middle;
+}
+
+.messo-role-mapping-table thead th {
+	font-weight: 600;
+}
+
+.messo-role-mapping-table input[type="text"],
+.messo-role-mapping-table select {
+	width: 100%;
+	max-width: 280px;
+}
+
+.messo-role-mapping-row .button-link-delete {
+	color: #b32d2e;
+}
+
+.messo-role-mapping-row .button-link-delete:hover {
+	color: #a00;
+}
+
+/* --------------------------------------------------------------------------
+   Metadata import section
+   -------------------------------------------------------------------------- */
+.messo-metadata-import {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.messo-metadata-import .regular-text {
+	flex: 1 1 360px;
+	min-width: 200px;
+}
+
+.messo-import-status {
+	font-style: italic;
+	color: #3c763d;
+}
+
+.messo-import-status.is-error {
+	color: #a94442;
+}
+
+/* --------------------------------------------------------------------------
+   Client secret toggle
+   -------------------------------------------------------------------------- */
+.messo-secret-field {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.messo-toggle-secret {
+	flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Status indicator (used in future phases)
+   -------------------------------------------------------------------------- */
+.messo-status-ok::before {
+	content: "\25CF";
+	color: #3c763d;
+	margin-right: 4px;
+}
+
+.messo-status-error::before {
+	content: "\25CF";
+	color: #a94442;
+	margin-right: 4px;
+}

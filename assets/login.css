@@ -1,0 +1,131 @@
+/*
+ * Microsoft Entra SSO — Login page styles.
+ *
+ * These styles are loaded on wp-login.php to style the SSO button.
+ * They are kept separate from the inline block in Login_Button::get_inline_css()
+ * so that the file can be enqueued directly if a theme or site customisation
+ * requires external stylesheet loading instead of inline injection.
+ *
+ * Microsoft brand color reference:
+ *   Dark text / border : #2F2F2F
+ *   Dark background    : #2F2F2F
+ *   White background   : #FFFFFF
+ *   Hover (dark bg)    : #1a1a1a
+ *   Hover (light bg)   : #f3f2f1
+ *   Focus ring         : #0078d4  (Microsoft blue)
+ */
+
+/* ─── Divider ────────────────────────────────────────────────────────────── */
+
+.messo-divider {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	margin: 16px 0;
+	color: #646970;
+	font-size: 13px;
+}
+
+.messo-divider::before,
+.messo-divider::after {
+	content: "";
+	flex: 1;
+	border-bottom: 1px solid #dcdcde;
+}
+
+.messo-divider::before {
+	margin-right: 8px;
+}
+
+.messo-divider::after {
+	margin-left: 8px;
+}
+
+/* ─── Button wrapper ─────────────────────────────────────────────────────── */
+
+.messo-btn-wrap {
+	margin-bottom: 12px;
+}
+
+/* ─── Button base ────────────────────────────────────────────────────────── */
+
+.messo-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding: 0 12px;
+	height: 41px;
+	border-radius: 0; /* Microsoft login buttons are square-cornered */
+	font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	font-weight: 600;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background 0.15s ease, border-color 0.15s ease;
+	box-sizing: border-box;
+	border: 1px solid transparent;
+	gap: 12px;
+}
+
+/* ─── Default / Light variant ────────────────────────────────────────────── */
+
+.messo-btn,
+.messo-btn-light {
+	background: #ffffff;
+	color: #2f2f2f;
+	border-color: #2f2f2f;
+}
+
+.messo-btn:hover,
+.messo-btn-light:hover {
+	background: #f3f2f1;
+	color: #2f2f2f;
+}
+
+.messo-btn:focus,
+.messo-btn-light:focus {
+	outline: 2px solid #0078d4;
+	outline-offset: 2px;
+}
+
+/* ─── Dark variant ───────────────────────────────────────────────────────── */
+
+.messo-btn-dark {
+	background: #2f2f2f;
+	color: #ffffff;
+	border-color: #2f2f2f;
+}
+
+.messo-btn-dark:hover {
+	background: #1a1a1a;
+	color: #ffffff;
+}
+
+.messo-btn-dark:focus {
+	outline: 2px solid #0078d4;
+	outline-offset: 2px;
+}
+
+/* ─── Button icon ────────────────────────────────────────────────────────── */
+
+.messo-btn svg {
+	flex-shrink: 0;
+}
+
+/* ─── Local login bypass link ────────────────────────────────────────────── */
+
+.messo-local-login {
+	text-align: center;
+	margin-top: 8px;
+	font-size: 12px;
+}
+
+.messo-local-login a {
+	color: #646970;
+	text-decoration: underline;
+}
+
+.messo-local-login a:hover {
+	color: #1d2327;
+}
