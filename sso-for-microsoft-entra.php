@@ -3,7 +3,7 @@
  * Plugin Name:       SSO for Microsoft Entra
  * Plugin URI:        https://github.com/codetot-web/sso-for-microsoft-entra
  * Description:       Single Sign-On authentication for WordPress using Microsoft Entra ID (Azure AD). Supports OpenID Connect with PKCE and SAML 2.0.
- * Version:           2.0.0
+ * Version:           2.0.1
  * Requires at least: 6.0
  * Requires PHP:      8.1
  * Author:            Khoi Pro, CODE TOT
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @var string
  */
-define( 'SFME_VERSION', '2.0.0' );
+define( 'SFME_VERSION', '2.0.1' );
 
 /**
  * Absolute path to the main plugin file.

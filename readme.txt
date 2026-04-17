@@ -4,7 +4,7 @@ Tags: sso, microsoft, entra, azure, openid-connect, saml, single-sign-on
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 8.1
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,6 +95,12 @@ if ( strpos( $_SERVER["REQUEST_URI"], "/sso/saml-acs" ) !== false ) {
     return "ALLOW";
 }`
 
+== Support ==
+
+* **Bug reports and feature requests:** [GitHub Issues](https://github.com/codetot-web/sso-for-microsoft-entra/issues)
+* **Documentation:** Click the Help button on the plugin settings page, or see the [GitHub README](https://github.com/codetot-web/sso-for-microsoft-entra).
+* **Security vulnerabilities:** Please report privately via [GitHub Security Advisories](https://github.com/codetot-web/sso-for-microsoft-entra/security/advisories).
+
 == Screenshots ==
 
 1. **Settings page** — Connection, authentication, and user provisioning settings.
@@ -103,6 +109,11 @@ if ( strpos( $_SERVER["REQUEST_URI"], "/sso/saml-acs" ) !== false ) {
 4. **Login page** — Microsoft sign-in button on the WordPress login form.
 
 == Changelog ==
+
+= 2.0.1 =
+* **Fixed:** Update "Tested up to" to WordPress 6.9.
+* **Fixed:** Include composer.json in distribution (required by Plugin Check when vendor/ exists).
+* **Fixed:** Full readme.txt rewrite with 2.0.0 changelog, upgrade notices, and NinjaFirewall FAQ.
 
 = 2.0.0 =
 * **Breaking:** Renamed plugin from "Microsoft Entra SSO" to "SSO for Microsoft Entra" for trademark compliance.
@@ -139,6 +150,9 @@ if ( strpos( $_SERVER["REQUEST_URI"], "/sso/saml-acs" ) !== false ) {
 * OpenID Connect with PKCE, SAML 2.0, user provisioning, role mapping, rate limiting.
 
 == Upgrade Notices ==
+
+= 2.0.1 =
+Fix WordPress 6.9 compatibility header and Plugin Check compliance.
 
 = 2.0.0 =
 **Breaking:** Plugin renamed and all internal prefixes changed. Settings auto-migrate on activation — just deactivate and reactivate. Requires PHP 8.1+. If using NinjaFirewall, create a `.htninja` whitelist for `/sso/saml-acs`.
