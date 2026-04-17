@@ -1,0 +1,831 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the SSO for Microsoft Entra package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SSO for Microsoft Entra 2.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/codetot-web/sso-for-microsoft-entra/"
+"issues\n"
+"POT-Creation-Date: 2026-04-17 16:28+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: includes/admin/class-admin-notices.php:70
+msgid ""
+"<strong>Microsoft Entra SSO:</strong> Neither the <code>sodium</code> nor "
+"the <code>openssl</code> PHP extension is available. The client secret "
+"cannot be encrypted. Please enable at least one extension."
+msgstr ""
+
+#: includes/admin/class-admin-notices.php:79
+#: includes/admin/class-settings-fields.php:43
+msgid "Tenant ID"
+msgstr ""
+
+#: includes/admin/class-admin-notices.php:83
+#: includes/admin/class-settings-fields.php:49
+msgid "Client ID"
+msgstr ""
+
+#: includes/admin/class-admin-notices.php:87
+#: includes/admin/class-settings-fields.php:55
+msgid "Client Secret"
+msgstr ""
+
+#: includes/admin/class-admin-notices.php:102
+#, php-format
+msgid ""
+"<strong>Microsoft Entra SSO:</strong> The following required fields are not "
+"configured: %1$s. <a href=\"%2$s\">Configure settings &rarr;</a>"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:45
+msgid ""
+"The Directory (tenant) ID from your Azure app registration. Format: xxxxxxxx-"
+"xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:51
+msgid "The Application (client) ID from your Azure app registration."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:57
+msgid ""
+"The client secret value. Stored encrypted in the database. Leave blank to "
+"keep the existing secret."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:61
+msgid "Redirect URI"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:63
+msgid ""
+"Add this URL to the \"Redirect URIs\" list in your Azure app registration."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:77
+msgid "Authentication Protocol"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:80
+msgid "OpenID Connect (OIDC)"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:81
+msgid "SAML 2.0"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:84
+msgid "OIDC is recommended for most setups. SAML requires federation metadata."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:88
+msgid "Force SSO"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:90
+msgid ""
+"Redirect all login attempts directly to Microsoft. Disables the standard "
+"WordPress login form."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:94
+msgid "Allow Local Login"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:96
+msgid ""
+"When Force SSO is enabled, still allow users with the administrator role to "
+"log in locally via wp-login.php."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:110
+msgid "Auto-Create Users"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:112
+msgid ""
+"Automatically create a WordPress account for users who authenticate "
+"successfully but do not yet have an account."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:116
+msgid "Default Role"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:118
+msgid "Role assigned to newly created users when no role mapping matches."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:122
+msgid "Role Mapping"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:124
+msgid ""
+"Map Entra group Object IDs to WordPress roles. First matching group wins."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:138
+msgid "Button Text"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:140
+#: includes/admin/class-settings-page.php:408
+#: includes/login/class-login-button.php:60
+msgid "Sign in with Microsoft"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:141
+msgid "Label displayed on the SSO login button on the WordPress login page."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:145
+msgid "Button Style"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:148
+msgid "Default (blue)"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:149
+msgid "Dark"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:150
+msgid "Light"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:153
+msgid "Visual style of the Microsoft sign-in button."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:167
+msgid "Max Attempts"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:171
+msgid "Maximum login attempts per IP before lockout. Default: 5."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:175
+msgid "Window (seconds)"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:179
+msgid "Time window in seconds. Default: 900 (15 minutes)."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:68
+msgid "Microsoft Entra SSO"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:69
+msgid "Entra SSO"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:95
+msgid "Quick Start"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:103
+msgid "Azure Setup"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:111
+msgid "SAML Setup"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:119
+msgid "Troubleshooting"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:125
+msgid "Resources"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:126
+msgid "Azure Portal"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:127
+msgid "Microsoft Docs"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:137
+msgid "Quick Start (SAML — Recommended)"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:139
+msgid ""
+"In Azure Portal, go to Enterprise Applications → your app → Single sign-on → "
+"SAML."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:140
+msgid "Set Reply URL (ACS) to:"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:141
+msgid ""
+"Copy the App Federation Metadata URL from the SAML Certificates section."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:142
+msgid "Paste it into the Metadata URL field below and click Import Metadata."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:143
+msgid "Tenant ID, Client ID, and protocol are auto-filled. Click Save Changes."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:144
+msgid ""
+"Test in an incognito window — click \"Sign in with Microsoft\" on the login "
+"page."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:154
+msgid "Azure App Registration"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:156
+msgid ""
+"Sign in to the Azure Portal → Microsoft Entra ID → App registrations → + New "
+"registration."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:157
+msgid ""
+"Name: \"WordPress SSO\", Account type: Single tenant, Redirect URI: Web →"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:158
+msgid ""
+"Copy the Application (client) ID and Directory (tenant) ID from the overview "
+"page."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:159
+msgid ""
+"Go to Certificates & secrets → + New client secret → copy the Value "
+"immediately."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:160
+msgid ""
+"Go to API permissions → + Add permission → Microsoft Graph → Delegated: "
+"openid, profile, email."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:162
+msgid "For OIDC:"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:163
+msgid ""
+"Enter Tenant ID, Client ID, and Client Secret in the Connection section "
+"below."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:164
+msgid "For SAML:"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:165
+msgid "Use the Quick Start tab instead — just paste the metadata URL."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:174
+msgid "SAML 2.0 Configuration"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:176
+msgid ""
+"In Azure Portal → Enterprise applications → your app → Single sign-on → SAML."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:177
+msgid "Set Basic SAML Configuration:"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:178
+msgid "Identifier (Entity ID):"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:179
+msgid "Reply URL (ACS):"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:180
+msgid "Under SAML Certificates, copy the App Federation Metadata URL."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:181
+msgid "Paste it in the Metadata URL field below and click Import Metadata."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:183
+msgid "NinjaFirewall users:"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:184
+msgid ""
+"Create a .htninja file in your document root to whitelist /sso/saml-acs — "
+"otherwise the firewall blocks the SAML POST data."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:193
+msgid "Common Issues"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:195
+msgid "Redirect URI mismatch"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:196
+msgid ""
+"The redirect URI in Azure must exactly match the Redirect URI shown in "
+"Connection settings (including protocol and trailing slash)."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:197
+msgid "Application not found"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:198
+msgid ""
+"The Tenant ID or Client ID is incorrect. Re-copy from Azure Portal → App "
+"registrations → Overview."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:199
+msgid "Rate limited"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:200
+msgid ""
+"Wait for the rate limit window to expire, or adjust Max Attempts / Window in "
+"the Rate Limiting section below."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:201
+msgid "NinjaFirewall blocks SAML callback"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:202
+msgid ""
+"Create .htninja in document root with a rule to return \"ALLOW\" for /sso/"
+"saml-acs requests."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:204
+msgid ""
+"Enable WP_DEBUG_LOG in wp-config.php and check wp-content/debug.log for "
+"detailed error messages."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:249
+msgid "Importing…"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:250
+#: includes/admin/class-settings-page.php:979
+msgid "Metadata imported successfully."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:251
+msgid "Import failed. Please check the URL and try again."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:252
+#: includes/admin/class-settings-page.php:801
+msgid "Add Mapping"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:253
+#: includes/admin/class-settings-page.php:844
+msgid "Remove"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:254
+#: includes/admin/class-settings-page.php:665
+msgid "Show"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:255
+msgid "Hide"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:274
+msgid "Connection"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:318
+msgid "Authentication"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:357
+msgid "User Provisioning"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:398
+msgid "Login Customization"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:434
+msgid "Rate Limiting"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:470
+msgid "SAML Metadata Import"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:490
+msgid "Metadata URL"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:552
+msgid "SAML metadata XML is invalid and was not saved."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:571
+msgid ""
+"Enter the Azure app registration credentials. All values are required for "
+"SSO to function."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:580
+msgid "Choose how users authenticate against Microsoft Entra ID."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:589
+msgid ""
+"Control how WordPress accounts are created and maintained for Entra users."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:598
+msgid ""
+"Customise the appearance of the Microsoft sign-in button on the login page."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:607
+msgid ""
+"Control how many SSO login attempts are allowed per IP address within a time "
+"window."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:616
+msgid ""
+"Import SAML federation metadata from your Entra app federation metadata URL. "
+"Only required when using the SAML 2.0 protocol."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:663
+msgid "(saved — enter new value to replace)"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:664
+msgid "Enter client secret"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:757
+msgid ""
+"https://login.microsoftonline.com/{tenant}/federationmetadata/2007-06/"
+"federationmetadata.xml"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:760
+msgid "Import Metadata"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:765
+msgid ""
+"Paste the App Federation Metadata URL from your Entra Enterprise Application "
+"and click Import to populate SAML settings automatically."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:784
+msgid "Entra Group Object ID"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:785
+msgid "WordPress Role"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:828
+msgid "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:861
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:927
+msgid "Insufficient permissions."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:936
+msgid "No URL provided."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:982
+#, php-format
+msgid "Auto-filled: %s."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:145
+msgid ""
+"The OAuth state parameter is invalid or has expired. Please try signing in "
+"again."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:159
+msgid "The PKCE verifier could not be found. Please try signing in again."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:175
+msgid "No authorization code was returned."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:195
+msgid "No ID token was returned by the token endpoint."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:227
+msgid "The ID token nonce is invalid or has already been used."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:288
+msgid "The plugin client credentials are not configured."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:321
+msgid "The token request to Microsoft Entra failed."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:335
+msgid "Microsoft Entra returned an error during token exchange."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:344
+msgid "The token endpoint response could not be parsed."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:380
+msgid "The Microsoft Entra tenant ID is not configured."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:405
+msgid "Failed to fetch the OpenID Connect discovery document."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:414
+msgid "The discovery endpoint returned an unexpected HTTP response."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:423
+msgid "The discovery document could not be parsed."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:436
+#, php-format
+msgid "The discovery document is missing the required field: %s."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:100
+msgid "Failed to deflate SAML AuthnRequest."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:139
+msgid "SAML response is empty."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:158
+msgid "Failed to parse SAML response."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:168
+msgid "SAML response returned a non-success status."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:177
+msgid "No SAML Assertion found in the response."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:191
+msgid "No signing certificate is configured for SAML verification."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:229
+msgid "SAML response signature verification failed."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:254
+#: includes/auth/class-saml-client.php:575
+msgid "SAML assertion does not contain a NameID."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:456
+msgid "SAML assertion is missing a Conditions element."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:473
+msgid "SAML assertion is not yet valid (NotBefore)."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:489
+msgid "SAML assertion has expired (NotOnOrAfter)."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:502
+msgid "SAML assertion is missing an AudienceRestriction element."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:530
+msgid "SAML assertion audience does not match this service provider."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:635
+msgid "SAML NameID is empty."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:684
+msgid "SAML SSO URL is not configured."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:693
+msgid "SAML signing certificate is not configured."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:72
+msgid "The ID token is malformed and could not be decoded."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:89
+msgid ""
+"The ID token uses a disallowed signing algorithm. Only RS256 is accepted."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:99
+msgid "The JWKS URI is required for signature verification."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:130
+msgid "The ID token signature could not be verified."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:143
+msgid "The ID token issuer does not match the expected value."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:151
+msgid "The ID token audience claim is missing."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:160
+msgid "The ID token audience does not include the expected client ID."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:171
+msgid "The ID token has expired."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:179
+msgid "The ID token is not yet valid."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:187
+msgid "The ID token is missing the issued-at (iat) claim."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:196
+msgid "The ID token nonce does not match the expected value."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:367
+msgid "Failed to fetch the JWKS document from the issuer."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:376
+msgid "The JWKS endpoint returned an unexpected HTTP response."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:386
+msgid "The JWKS document is invalid or contains no keys."
+msgstr ""
+
+#: includes/login/class-login-handler.php:113
+msgid "SSO is not configured. Please contact your administrator."
+msgstr ""
+
+#: includes/login/class-login-handler.php:114
+msgid "SSO Not Configured"
+msgstr ""
+
+#: includes/login/class-login-handler.php:123
+msgid "Too many login attempts. Please try again later."
+msgstr ""
+
+#: includes/login/class-login-handler.php:124
+msgid "Rate Limited"
+msgstr ""
+
+#: includes/user/class-user-handler.php:72
+msgid ""
+"No WordPress account was found for your Microsoft identity and automatic "
+"user creation is disabled. Please contact your site administrator."
+msgstr ""
+
+#: includes/user/class-user-handler.php:106
+msgid ""
+"The Microsoft identity does not include a valid email address. Cannot create "
+"a WordPress account."
+msgstr ""
+
+#: includes/xml/class-metadata-parser.php:84
+msgid "Federation metadata does not contain an EntityDescriptor @entityID."
+msgstr ""
+
+#: includes/xml/class-metadata-parser.php:94
+msgid ""
+"Federation metadata does not contain a SingleSignOnService with HTTP-"
+"Redirect binding."
+msgstr ""
+
+#: includes/xml/class-metadata-parser.php:107
+msgid "Federation metadata does not contain any signing certificates."
+msgstr ""
+
+#: includes/xml/class-xml-security.php:68
+msgid "XML payload exceeds the 1 MB size limit."
+msgstr ""
+
+#: includes/xml/class-xml-security.php:97
+msgid "Unknown XML parse error."
+msgstr ""
+
+#: includes/xml/class-xml-security.php:104
+#, php-format
+msgid "XML parsing failed: %s"
+msgstr ""
+
+#: includes/xml/class-xml-security.php:133
+msgid "The provided URL is not valid."
+msgstr ""
+
+#: includes/xml/class-xml-security.php:141
+msgid "Only HTTPS URLs are accepted for XML retrieval."
+msgstr ""
+
+#: includes/xml/class-xml-security.php:159
+#, php-format
+msgid "Failed to fetch XML from remote URL: %s"
+msgstr ""
+
+#: includes/xml/class-xml-security.php:173
+#, php-format
+msgid "Remote server returned HTTP %d instead of 200."
+msgstr ""
+
+#: includes/xml/class-xml-security.php:188
+#, php-format
+msgid "Expected an XML Content-Type but received: %s"
+msgstr ""
+
+#: includes/xml/class-xml-security.php:199
+msgid "Remote server returned an empty response body."
+msgstr ""
+
+#: sso-for-microsoft-entra.php:62
+msgid ""
+"Microsoft Entra SSO requires PHP 7.4 or higher. Please upgrade PHP to "
+"activate this plugin."
+msgstr ""
+
+#: sso-for-microsoft-entra.php:84
+msgid ""
+"Microsoft Entra SSO requires WordPress 6.0 or higher. Please upgrade "
+"WordPress to activate this plugin."
+msgstr ""
+
+#: templates/admin-settings.php:24
+msgid "Save Settings"
+msgstr ""
+
+#: templates/login-button.php:22
+msgid "Or"
+msgstr ""
+
+#: templates/login-button.php:64
+msgid "Use local login instead"
+msgstr ""

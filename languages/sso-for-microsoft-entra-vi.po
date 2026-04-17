@@ -1,0 +1,831 @@
+# Vietnamese translation for SSO for Microsoft Entra.
+# Copyright (C) 2026 Khoi Pro, CODE TOT.
+# This file is distributed under the same license as the SSO for Microsoft Entra package.
+# Khoi Pro <khoi@codetot.com>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: SSO for Microsoft Entra 2.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/codetot-web/sso-for-microsoft-entra/"
+"issues\n"
+"POT-Creation-Date: 2026-04-17 16:28+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Khoi Pro <khoi@codetot.com>\n"
+"Language-Team: Vietnamese\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: includes/admin/class-admin-notices.php:70
+msgid ""
+"<strong>Microsoft Entra SSO:</strong> Neither the <code>sodium</code> nor "
+"the <code>openssl</code> PHP extension is available. The client secret "
+"cannot be encrypted. Please enable at least one extension."
+msgstr ""
+
+#: includes/admin/class-admin-notices.php:79
+#: includes/admin/class-settings-fields.php:43
+msgid "Tenant ID"
+msgstr "ID Thuê bao"
+
+#: includes/admin/class-admin-notices.php:83
+#: includes/admin/class-settings-fields.php:49
+msgid "Client ID"
+msgstr "ID Ứng dụng"
+
+#: includes/admin/class-admin-notices.php:87
+#: includes/admin/class-settings-fields.php:55
+msgid "Client Secret"
+msgstr "Khóa bí mật"
+
+#: includes/admin/class-admin-notices.php:102
+#, php-format
+msgid ""
+"<strong>Microsoft Entra SSO:</strong> The following required fields are not "
+"configured: %1$s. <a href=\"%2$s\">Configure settings &rarr;</a>"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:45
+msgid ""
+"The Directory (tenant) ID from your Azure app registration. Format: xxxxxxxx-"
+"xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:51
+msgid "The Application (client) ID from your Azure app registration."
+msgstr "ID ứng dụng (client) từ đăng ký ứng dụng Azure."
+
+#: includes/admin/class-settings-fields.php:57
+msgid ""
+"The client secret value. Stored encrypted in the database. Leave blank to "
+"keep the existing secret."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:61
+msgid "Redirect URI"
+msgstr "URI Chuyển hướng"
+
+#: includes/admin/class-settings-fields.php:63
+msgid ""
+"Add this URL to the \"Redirect URIs\" list in your Azure app registration."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:77
+msgid "Authentication Protocol"
+msgstr "Giao thức xác thực"
+
+#: includes/admin/class-settings-fields.php:80
+msgid "OpenID Connect (OIDC)"
+msgstr "OpenID Connect (OIDC)"
+
+#: includes/admin/class-settings-fields.php:81
+msgid "SAML 2.0"
+msgstr "SAML 2.0"
+
+#: includes/admin/class-settings-fields.php:84
+msgid "OIDC is recommended for most setups. SAML requires federation metadata."
+msgstr "OIDC được khuyến nghị cho hầu hết các cài đặt. SAML yêu cầu metadata liên kết."
+
+#: includes/admin/class-settings-fields.php:88
+msgid "Force SSO"
+msgstr "Bắt buộc SSO"
+
+#: includes/admin/class-settings-fields.php:90
+msgid ""
+"Redirect all login attempts directly to Microsoft. Disables the standard "
+"WordPress login form."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:94
+msgid "Allow Local Login"
+msgstr "Cho phép đăng nhập cục bộ"
+
+#: includes/admin/class-settings-fields.php:96
+msgid ""
+"When Force SSO is enabled, still allow users with the administrator role to "
+"log in locally via wp-login.php."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:110
+msgid "Auto-Create Users"
+msgstr "Tự động tạo người dùng"
+
+#: includes/admin/class-settings-fields.php:112
+msgid ""
+"Automatically create a WordPress account for users who authenticate "
+"successfully but do not yet have an account."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:116
+msgid "Default Role"
+msgstr "Vai trò mặc định"
+
+#: includes/admin/class-settings-fields.php:118
+msgid "Role assigned to newly created users when no role mapping matches."
+msgstr "Vai trò gán cho người dùng mới khi không khớp ánh xạ vai trò nào."
+
+#: includes/admin/class-settings-fields.php:122
+msgid "Role Mapping"
+msgstr "Ánh xạ vai trò"
+
+#: includes/admin/class-settings-fields.php:124
+msgid ""
+"Map Entra group Object IDs to WordPress roles. First matching group wins."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php:138
+msgid "Button Text"
+msgstr "Nội dung nút"
+
+#: includes/admin/class-settings-fields.php:140
+#: includes/admin/class-settings-page.php:408
+#: includes/login/class-login-button.php:60
+msgid "Sign in with Microsoft"
+msgstr "Đăng nhập bằng Microsoft"
+
+#: includes/admin/class-settings-fields.php:141
+msgid "Label displayed on the SSO login button on the WordPress login page."
+msgstr "Nhãn hiển thị trên nút đăng nhập SSO trên trang đăng nhập WordPress."
+
+#: includes/admin/class-settings-fields.php:145
+msgid "Button Style"
+msgstr "Kiểu nút"
+
+#: includes/admin/class-settings-fields.php:148
+msgid "Default (blue)"
+msgstr "Mặc định (xanh)"
+
+#: includes/admin/class-settings-fields.php:149
+msgid "Dark"
+msgstr "Tối"
+
+#: includes/admin/class-settings-fields.php:150
+msgid "Light"
+msgstr "Sáng"
+
+#: includes/admin/class-settings-fields.php:153
+msgid "Visual style of the Microsoft sign-in button."
+msgstr "Kiểu hình ảnh của nút đăng nhập Microsoft."
+
+#: includes/admin/class-settings-fields.php:167
+msgid "Max Attempts"
+msgstr "Số lần tối đa"
+
+#: includes/admin/class-settings-fields.php:171
+msgid "Maximum login attempts per IP before lockout. Default: 5."
+msgstr "Số lần đăng nhập tối đa mỗi IP trước khi bị khóa. Mặc định: 5."
+
+#: includes/admin/class-settings-fields.php:175
+msgid "Window (seconds)"
+msgstr "Khoảng thời gian (giây)"
+
+#: includes/admin/class-settings-fields.php:179
+msgid "Time window in seconds. Default: 900 (15 minutes)."
+msgstr "Khoảng thời gian tính bằng giây. Mặc định: 900 (15 phút)."
+
+#: includes/admin/class-settings-page.php:68
+msgid "Microsoft Entra SSO"
+msgstr "Microsoft Entra SSO"
+
+#: includes/admin/class-settings-page.php:69
+msgid "Entra SSO"
+msgstr "Entra SSO"
+
+#: includes/admin/class-settings-page.php:95
+msgid "Quick Start"
+msgstr "Bắt đầu nhanh"
+
+#: includes/admin/class-settings-page.php:103
+msgid "Azure Setup"
+msgstr "Cài đặt Azure"
+
+#: includes/admin/class-settings-page.php:111
+msgid "SAML Setup"
+msgstr "Cài đặt SAML"
+
+#: includes/admin/class-settings-page.php:119
+msgid "Troubleshooting"
+msgstr "Xử lý sự cố"
+
+#: includes/admin/class-settings-page.php:125
+msgid "Resources"
+msgstr "Tài nguyên"
+
+#: includes/admin/class-settings-page.php:126
+msgid "Azure Portal"
+msgstr "Cổng Azure"
+
+#: includes/admin/class-settings-page.php:127
+msgid "Microsoft Docs"
+msgstr "Tài liệu Microsoft"
+
+#: includes/admin/class-settings-page.php:137
+msgid "Quick Start (SAML — Recommended)"
+msgstr "Bắt đầu nhanh (SAML — Khuyến nghị)"
+
+#: includes/admin/class-settings-page.php:139
+msgid ""
+"In Azure Portal, go to Enterprise Applications → your app → Single sign-on → "
+"SAML."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:140
+msgid "Set Reply URL (ACS) to:"
+msgstr "Đặt URL Phản hồi (ACS) thành:"
+
+#: includes/admin/class-settings-page.php:141
+msgid ""
+"Copy the App Federation Metadata URL from the SAML Certificates section."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:142
+msgid "Paste it into the Metadata URL field below and click Import Metadata."
+msgstr "Dán vào trường URL Metadata bên dưới và nhấn Nhập Metadata."
+
+#: includes/admin/class-settings-page.php:143
+msgid "Tenant ID, Client ID, and protocol are auto-filled. Click Save Changes."
+msgstr "ID Thuê bao, ID Ứng dụng và giao thức được tự động điền. Nhấn Lưu thay đổi."
+
+#: includes/admin/class-settings-page.php:144
+msgid ""
+"Test in an incognito window — click \"Sign in with Microsoft\" on the login "
+"page."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:154
+msgid "Azure App Registration"
+msgstr "Đăng ký Ứng dụng Azure"
+
+#: includes/admin/class-settings-page.php:156
+msgid ""
+"Sign in to the Azure Portal → Microsoft Entra ID → App registrations → + New "
+"registration."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:157
+msgid ""
+"Name: \"WordPress SSO\", Account type: Single tenant, Redirect URI: Web →"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:158
+msgid ""
+"Copy the Application (client) ID and Directory (tenant) ID from the overview "
+"page."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:159
+msgid ""
+"Go to Certificates & secrets → + New client secret → copy the Value "
+"immediately."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:160
+msgid ""
+"Go to API permissions → + Add permission → Microsoft Graph → Delegated: "
+"openid, profile, email."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:162
+msgid "For OIDC:"
+msgstr "Cho OIDC:"
+
+#: includes/admin/class-settings-page.php:163
+msgid ""
+"Enter Tenant ID, Client ID, and Client Secret in the Connection section "
+"below."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:164
+msgid "For SAML:"
+msgstr "Cho SAML:"
+
+#: includes/admin/class-settings-page.php:165
+msgid "Use the Quick Start tab instead — just paste the metadata URL."
+msgstr "Sử dụng tab Bắt đầu nhanh — chỉ cần dán URL metadata."
+
+#: includes/admin/class-settings-page.php:174
+msgid "SAML 2.0 Configuration"
+msgstr "Cấu hình SAML 2.0"
+
+#: includes/admin/class-settings-page.php:176
+msgid ""
+"In Azure Portal → Enterprise applications → your app → Single sign-on → SAML."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:177
+msgid "Set Basic SAML Configuration:"
+msgstr "Đặt Cấu hình SAML Cơ bản:"
+
+#: includes/admin/class-settings-page.php:178
+msgid "Identifier (Entity ID):"
+msgstr "Mã định danh (Entity ID):"
+
+#: includes/admin/class-settings-page.php:179
+msgid "Reply URL (ACS):"
+msgstr "URL Phản hồi (ACS):"
+
+#: includes/admin/class-settings-page.php:180
+msgid "Under SAML Certificates, copy the App Federation Metadata URL."
+msgstr "Trong phần Chứng chỉ SAML, sao chép URL Metadata Liên kết."
+
+#: includes/admin/class-settings-page.php:181
+msgid "Paste it in the Metadata URL field below and click Import Metadata."
+msgstr "Dán vào trường URL Metadata bên dưới và nhấn Nhập Metadata."
+
+#: includes/admin/class-settings-page.php:183
+msgid "NinjaFirewall users:"
+msgstr "Người dùng NinjaFirewall:"
+
+#: includes/admin/class-settings-page.php:184
+msgid ""
+"Create a .htninja file in your document root to whitelist /sso/saml-acs — "
+"otherwise the firewall blocks the SAML POST data."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:193
+msgid "Common Issues"
+msgstr "Sự cố thường gặp"
+
+#: includes/admin/class-settings-page.php:195
+msgid "Redirect URI mismatch"
+msgstr "URI chuyển hướng không khớp"
+
+#: includes/admin/class-settings-page.php:196
+msgid ""
+"The redirect URI in Azure must exactly match the Redirect URI shown in "
+"Connection settings (including protocol and trailing slash)."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:197
+msgid "Application not found"
+msgstr "Không tìm thấy ứng dụng"
+
+#: includes/admin/class-settings-page.php:198
+msgid ""
+"The Tenant ID or Client ID is incorrect. Re-copy from Azure Portal → App "
+"registrations → Overview."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:199
+msgid "Rate limited"
+msgstr "Bị giới hạn tần suất"
+
+#: includes/admin/class-settings-page.php:200
+msgid ""
+"Wait for the rate limit window to expire, or adjust Max Attempts / Window in "
+"the Rate Limiting section below."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:201
+msgid "NinjaFirewall blocks SAML callback"
+msgstr "NinjaFirewall chặn callback SAML"
+
+#: includes/admin/class-settings-page.php:202
+msgid ""
+"Create .htninja in document root with a rule to return \"ALLOW\" for /sso/"
+"saml-acs requests."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:204
+msgid ""
+"Enable WP_DEBUG_LOG in wp-config.php and check wp-content/debug.log for "
+"detailed error messages."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:249
+msgid "Importing…"
+msgstr "Đang nhập…"
+
+#: includes/admin/class-settings-page.php:250
+#: includes/admin/class-settings-page.php:979
+msgid "Metadata imported successfully."
+msgstr "Nhập metadata thành công."
+
+#: includes/admin/class-settings-page.php:251
+msgid "Import failed. Please check the URL and try again."
+msgstr "Nhập thất bại. Vui lòng kiểm tra URL và thử lại."
+
+#: includes/admin/class-settings-page.php:252
+#: includes/admin/class-settings-page.php:801
+msgid "Add Mapping"
+msgstr "Thêm ánh xạ"
+
+#: includes/admin/class-settings-page.php:253
+#: includes/admin/class-settings-page.php:844
+msgid "Remove"
+msgstr "Xóa"
+
+#: includes/admin/class-settings-page.php:254
+#: includes/admin/class-settings-page.php:665
+msgid "Show"
+msgstr "Hiện"
+
+#: includes/admin/class-settings-page.php:255
+msgid "Hide"
+msgstr "Ẩn"
+
+#: includes/admin/class-settings-page.php:274
+msgid "Connection"
+msgstr "Kết nối"
+
+#: includes/admin/class-settings-page.php:318
+msgid "Authentication"
+msgstr "Xác thực"
+
+#: includes/admin/class-settings-page.php:357
+msgid "User Provisioning"
+msgstr "Cấp phép người dùng"
+
+#: includes/admin/class-settings-page.php:398
+msgid "Login Customization"
+msgstr "Tùy chỉnh đăng nhập"
+
+#: includes/admin/class-settings-page.php:434
+msgid "Rate Limiting"
+msgstr "Giới hạn tần suất"
+
+#: includes/admin/class-settings-page.php:470
+msgid "SAML Metadata Import"
+msgstr "Nhập metadata SAML"
+
+#: includes/admin/class-settings-page.php:490
+msgid "Metadata URL"
+msgstr "URL Metadata"
+
+#: includes/admin/class-settings-page.php:552
+msgid "SAML metadata XML is invalid and was not saved."
+msgstr "XML metadata SAML không hợp lệ và chưa được lưu."
+
+#: includes/admin/class-settings-page.php:571
+msgid ""
+"Enter the Azure app registration credentials. All values are required for "
+"SSO to function."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:580
+msgid "Choose how users authenticate against Microsoft Entra ID."
+msgstr "Chọn cách người dùng xác thực với Microsoft Entra ID."
+
+#: includes/admin/class-settings-page.php:589
+msgid ""
+"Control how WordPress accounts are created and maintained for Entra users."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:598
+msgid ""
+"Customise the appearance of the Microsoft sign-in button on the login page."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:607
+msgid ""
+"Control how many SSO login attempts are allowed per IP address within a time "
+"window."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:616
+msgid ""
+"Import SAML federation metadata from your Entra app federation metadata URL. "
+"Only required when using the SAML 2.0 protocol."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:663
+msgid "(saved — enter new value to replace)"
+msgstr "(đã lưu — nhập giá trị mới để thay thế)"
+
+#: includes/admin/class-settings-page.php:664
+msgid "Enter client secret"
+msgstr "Nhập khóa bí mật"
+
+#: includes/admin/class-settings-page.php:757
+msgid ""
+"https://login.microsoftonline.com/{tenant}/federationmetadata/2007-06/"
+"federationmetadata.xml"
+msgstr ""
+
+#: includes/admin/class-settings-page.php:760
+msgid "Import Metadata"
+msgstr "Nhập Metadata"
+
+#: includes/admin/class-settings-page.php:765
+msgid ""
+"Paste the App Federation Metadata URL from your Entra Enterprise Application "
+"and click Import to populate SAML settings automatically."
+msgstr ""
+
+#: includes/admin/class-settings-page.php:784
+msgid "Entra Group Object ID"
+msgstr "ID Đối tượng Nhóm Entra"
+
+#: includes/admin/class-settings-page.php:785
+msgid "WordPress Role"
+msgstr "Vai trò WordPress"
+
+#: includes/admin/class-settings-page.php:828
+msgid "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+msgstr "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+
+#: includes/admin/class-settings-page.php:861
+msgid "You do not have sufficient permissions to access this page."
+msgstr "Bạn không có đủ quyền để truy cập trang này."
+
+#: includes/admin/class-settings-page.php:927
+msgid "Insufficient permissions."
+msgstr "Không đủ quyền."
+
+#: includes/admin/class-settings-page.php:936
+msgid "No URL provided."
+msgstr "Không có URL được cung cấp."
+
+#: includes/admin/class-settings-page.php:982
+#, php-format
+msgid "Auto-filled: %s."
+msgstr "Đã tự động điền: %s."
+
+#: includes/auth/class-oidc-client.php:145
+msgid ""
+"The OAuth state parameter is invalid or has expired. Please try signing in "
+"again."
+msgstr ""
+
+#: includes/auth/class-oidc-client.php:159
+msgid "The PKCE verifier could not be found. Please try signing in again."
+msgstr "Không tìm thấy PKCE verifier. Vui lòng thử đăng nhập lại."
+
+#: includes/auth/class-oidc-client.php:175
+msgid "No authorization code was returned."
+msgstr "Không nhận được mã xác thực."
+
+#: includes/auth/class-oidc-client.php:195
+msgid "No ID token was returned by the token endpoint."
+msgstr "Token endpoint không trả về ID token."
+
+#: includes/auth/class-oidc-client.php:227
+msgid "The ID token nonce is invalid or has already been used."
+msgstr "Nonce của ID token không hợp lệ hoặc đã được sử dụng."
+
+#: includes/auth/class-oidc-client.php:288
+msgid "The plugin client credentials are not configured."
+msgstr "Thông tin xác thực ứng dụng chưa được cấu hình."
+
+#: includes/auth/class-oidc-client.php:321
+msgid "The token request to Microsoft Entra failed."
+msgstr "Yêu cầu token đến Microsoft Entra thất bại."
+
+#: includes/auth/class-oidc-client.php:335
+msgid "Microsoft Entra returned an error during token exchange."
+msgstr "Microsoft Entra trả về lỗi trong quá trình trao đổi token."
+
+#: includes/auth/class-oidc-client.php:344
+msgid "The token endpoint response could not be parsed."
+msgstr "Không thể phân tích phản hồi từ token endpoint."
+
+#: includes/auth/class-oidc-client.php:380
+msgid "The Microsoft Entra tenant ID is not configured."
+msgstr "ID thuê bao Microsoft Entra chưa được cấu hình."
+
+#: includes/auth/class-oidc-client.php:405
+msgid "Failed to fetch the OpenID Connect discovery document."
+msgstr "Không thể tải tài liệu khám phá OpenID Connect."
+
+#: includes/auth/class-oidc-client.php:414
+msgid "The discovery endpoint returned an unexpected HTTP response."
+msgstr "Discovery endpoint trả về phản hồi HTTP không mong đợi."
+
+#: includes/auth/class-oidc-client.php:423
+msgid "The discovery document could not be parsed."
+msgstr "Không thể phân tích tài liệu khám phá."
+
+#: includes/auth/class-oidc-client.php:436
+#, php-format
+msgid "The discovery document is missing the required field: %s."
+msgstr "Tài liệu khám phá thiếu trường bắt buộc: %s."
+
+#: includes/auth/class-saml-client.php:100
+msgid "Failed to deflate SAML AuthnRequest."
+msgstr "Không thể nén SAML AuthnRequest."
+
+#: includes/auth/class-saml-client.php:139
+msgid "SAML response is empty."
+msgstr "Phản hồi SAML rỗng."
+
+#: includes/auth/class-saml-client.php:158
+msgid "Failed to parse SAML response."
+msgstr "Không thể phân tích phản hồi SAML."
+
+#: includes/auth/class-saml-client.php:168
+msgid "SAML response returned a non-success status."
+msgstr "Phản hồi SAML trả về trạng thái không thành công."
+
+#: includes/auth/class-saml-client.php:177
+msgid "No SAML Assertion found in the response."
+msgstr "Không tìm thấy SAML Assertion trong phản hồi."
+
+#: includes/auth/class-saml-client.php:191
+msgid "No signing certificate is configured for SAML verification."
+msgstr "Không có chứng chỉ ký được cấu hình cho xác minh SAML."
+
+#: includes/auth/class-saml-client.php:229
+msgid "SAML response signature verification failed."
+msgstr "Xác minh chữ ký phản hồi SAML thất bại."
+
+#: includes/auth/class-saml-client.php:254
+#: includes/auth/class-saml-client.php:575
+msgid "SAML assertion does not contain a NameID."
+msgstr "SAML assertion không chứa NameID."
+
+#: includes/auth/class-saml-client.php:456
+msgid "SAML assertion is missing a Conditions element."
+msgstr "SAML assertion thiếu phần tử Conditions."
+
+#: includes/auth/class-saml-client.php:473
+msgid "SAML assertion is not yet valid (NotBefore)."
+msgstr "SAML assertion chưa hợp lệ (NotBefore)."
+
+#: includes/auth/class-saml-client.php:489
+msgid "SAML assertion has expired (NotOnOrAfter)."
+msgstr "SAML assertion đã hết hạn (NotOnOrAfter)."
+
+#: includes/auth/class-saml-client.php:502
+msgid "SAML assertion is missing an AudienceRestriction element."
+msgstr "SAML assertion thiếu phần tử AudienceRestriction."
+
+#: includes/auth/class-saml-client.php:530
+msgid "SAML assertion audience does not match this service provider."
+msgstr "Audience của SAML assertion không khớp với nhà cung cấp dịch vụ này."
+
+#: includes/auth/class-saml-client.php:635
+msgid "SAML NameID is empty."
+msgstr "SAML NameID rỗng."
+
+#: includes/auth/class-saml-client.php:684
+msgid "SAML SSO URL is not configured."
+msgstr "URL SSO SAML chưa được cấu hình."
+
+#: includes/auth/class-saml-client.php:693
+msgid "SAML signing certificate is not configured."
+msgstr "Chứng chỉ ký SAML chưa được cấu hình."
+
+#: includes/auth/class-token-validator.php:72
+msgid "The ID token is malformed and could not be decoded."
+msgstr "ID token không đúng định dạng và không thể giải mã."
+
+#: includes/auth/class-token-validator.php:89
+msgid ""
+"The ID token uses a disallowed signing algorithm. Only RS256 is accepted."
+msgstr ""
+
+#: includes/auth/class-token-validator.php:99
+msgid "The JWKS URI is required for signature verification."
+msgstr "URI JWKS là bắt buộc để xác minh chữ ký."
+
+#: includes/auth/class-token-validator.php:130
+msgid "The ID token signature could not be verified."
+msgstr "Không thể xác minh chữ ký ID token."
+
+#: includes/auth/class-token-validator.php:143
+msgid "The ID token issuer does not match the expected value."
+msgstr "Issuer của ID token không khớp với giá trị mong đợi."
+
+#: includes/auth/class-token-validator.php:151
+msgid "The ID token audience claim is missing."
+msgstr "ID token thiếu claim audience."
+
+#: includes/auth/class-token-validator.php:160
+msgid "The ID token audience does not include the expected client ID."
+msgstr "Audience của ID token không chứa client ID mong đợi."
+
+#: includes/auth/class-token-validator.php:171
+msgid "The ID token has expired."
+msgstr "ID token đã hết hạn."
+
+#: includes/auth/class-token-validator.php:179
+msgid "The ID token is not yet valid."
+msgstr "ID token chưa hợp lệ."
+
+#: includes/auth/class-token-validator.php:187
+msgid "The ID token is missing the issued-at (iat) claim."
+msgstr "ID token thiếu claim issued-at (iat)."
+
+#: includes/auth/class-token-validator.php:196
+msgid "The ID token nonce does not match the expected value."
+msgstr "Nonce của ID token không khớp giá trị mong đợi."
+
+#: includes/auth/class-token-validator.php:367
+msgid "Failed to fetch the JWKS document from the issuer."
+msgstr "Không thể tải tài liệu JWKS từ issuer."
+
+#: includes/auth/class-token-validator.php:376
+msgid "The JWKS endpoint returned an unexpected HTTP response."
+msgstr "JWKS endpoint trả về phản hồi HTTP không mong đợi."
+
+#: includes/auth/class-token-validator.php:386
+msgid "The JWKS document is invalid or contains no keys."
+msgstr "Tài liệu JWKS không hợp lệ hoặc không chứa khóa nào."
+
+#: includes/login/class-login-handler.php:113
+msgid "SSO is not configured. Please contact your administrator."
+msgstr "SSO chưa được cấu hình. Vui lòng liên hệ quản trị viên."
+
+#: includes/login/class-login-handler.php:114
+msgid "SSO Not Configured"
+msgstr "SSO chưa cấu hình"
+
+#: includes/login/class-login-handler.php:123
+msgid "Too many login attempts. Please try again later."
+msgstr "Quá nhiều lần đăng nhập. Vui lòng thử lại sau."
+
+#: includes/login/class-login-handler.php:124
+msgid "Rate Limited"
+msgstr "Giới hạn tần suất"
+
+#: includes/user/class-user-handler.php:72
+msgid ""
+"No WordPress account was found for your Microsoft identity and automatic "
+"user creation is disabled. Please contact your site administrator."
+msgstr ""
+
+#: includes/user/class-user-handler.php:106
+msgid ""
+"The Microsoft identity does not include a valid email address. Cannot create "
+"a WordPress account."
+msgstr ""
+
+#: includes/xml/class-metadata-parser.php:84
+msgid "Federation metadata does not contain an EntityDescriptor @entityID."
+msgstr "Metadata liên kết không chứa EntityDescriptor @entityID."
+
+#: includes/xml/class-metadata-parser.php:94
+msgid ""
+"Federation metadata does not contain a SingleSignOnService with HTTP-"
+"Redirect binding."
+msgstr ""
+
+#: includes/xml/class-metadata-parser.php:107
+msgid "Federation metadata does not contain any signing certificates."
+msgstr "Metadata liên kết không chứa chứng chỉ ký nào."
+
+#: includes/xml/class-xml-security.php:68
+msgid "XML payload exceeds the 1 MB size limit."
+msgstr "Dữ liệu XML vượt quá giới hạn 1 MB."
+
+#: includes/xml/class-xml-security.php:97
+msgid "Unknown XML parse error."
+msgstr "Lỗi phân tích XML không xác định."
+
+#: includes/xml/class-xml-security.php:104
+#, php-format
+msgid "XML parsing failed: %s"
+msgstr "Phân tích XML thất bại: %s"
+
+#: includes/xml/class-xml-security.php:133
+msgid "The provided URL is not valid."
+msgstr "URL cung cấp không hợp lệ."
+
+#: includes/xml/class-xml-security.php:141
+msgid "Only HTTPS URLs are accepted for XML retrieval."
+msgstr "Chỉ chấp nhận URL HTTPS để tải XML."
+
+#: includes/xml/class-xml-security.php:159
+#, php-format
+msgid "Failed to fetch XML from remote URL: %s"
+msgstr "Không thể tải XML từ URL: %s"
+
+#: includes/xml/class-xml-security.php:173
+#, php-format
+msgid "Remote server returned HTTP %d instead of 200."
+msgstr "Máy chủ trả về HTTP %d thay vì 200."
+
+#: includes/xml/class-xml-security.php:188
+#, php-format
+msgid "Expected an XML Content-Type but received: %s"
+msgstr "Mong đợi Content-Type XML nhưng nhận được: %s"
+
+#: includes/xml/class-xml-security.php:199
+msgid "Remote server returned an empty response body."
+msgstr "Máy chủ từ xa trả về nội dung rỗng."
+
+#: sso-for-microsoft-entra.php:62
+msgid ""
+"Microsoft Entra SSO requires PHP 7.4 or higher. Please upgrade PHP to "
+"activate this plugin."
+msgstr ""
+
+#: sso-for-microsoft-entra.php:84
+msgid ""
+"Microsoft Entra SSO requires WordPress 6.0 or higher. Please upgrade "
+"WordPress to activate this plugin."
+msgstr ""
+
+#: templates/admin-settings.php:24
+msgid "Save Settings"
+msgstr "Lưu cài đặt"
+
+#: templates/login-button.php:22
+msgid "Or"
+msgstr "Hoặc"
+
+#: templates/login-button.php:64
+msgid "Use local login instead"
+msgstr "Sử dụng đăng nhập cục bộ"
