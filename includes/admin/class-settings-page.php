@@ -899,7 +899,7 @@ class Settings_Page {
 			}
 		}
 
-		// Extract client ID from query: ?appid=client-guid
+		// Extract client ID from query string appid parameter.
 		if ( ! empty( $parsed['query'] ) ) {
 			parse_str( $parsed['query'], $query_params );
 			if ( ! empty( $query_params['appid'] ) && Settings_Fields::is_guid( $query_params['appid'] ) ) {

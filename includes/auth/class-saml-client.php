@@ -442,7 +442,8 @@ class SAML_Client {
 	private static function validate_conditions( \DOMElement $assertion, string $entity_id ) {
 		// Security (C-1): query relative to the verified assertion element,
 		// not the entire document, to prevent XSW attacks.
-		$xpath = new \DOMXPath( $assertion->ownerDocument // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API property. );
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API.
+		$xpath = new \DOMXPath( $assertion->ownerDocument );
 		$xpath->registerNamespace( 'saml', self::NS_SAML_ASSERTION );
 
 		$conditions_nodes = $xpath->query( 'saml:Conditions', $assertion );
@@ -559,7 +560,8 @@ class SAML_Client {
 	private static function extract_claims( \DOMElement $assertion ) {
 		// Security (C-1): query relative to the verified assertion element,
 		// not the entire document, to prevent XSW attacks.
-		$xpath = new \DOMXPath( $assertion->ownerDocument // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API property. );
+		// phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- PHP DOM API.
+		$xpath = new \DOMXPath( $assertion->ownerDocument );
 		$xpath->registerNamespace( 'saml', self::NS_SAML_ASSERTION );
 
 		$claims = array();
