@@ -287,9 +287,9 @@
 			}
 		}
 
-		radios.forEach( function ( radio ) {
-			radio.addEventListener( 'change', toggle );
-		} );
+		for ( var i = 0; i < radios.length; i++ ) {
+			radios[ i ].addEventListener( 'change', toggle );
+		}
 
 		// Run on load.
 		toggle();
