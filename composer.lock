@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5c1b657c9a6b046e3c56d6c27b7165e8",
+    "content-hash": "73d9211fdbb81d204f184c73bf8b3eff",
     "packages": [
         {
             "name": "litesaml/lightsaml",
