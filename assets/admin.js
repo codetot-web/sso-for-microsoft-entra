@@ -71,6 +71,13 @@
 						btn.disabled = false;
 						if ( data.success ) {
 								setStatus( status, data.data && data.data.message ? data.data.message : strings.import_done, false );
+								// Auto-populate connection fields extracted from the metadata URL.
+								if ( data.data ) {
+									fillFieldIfEmpty( 'microsoft_entra_sso_tenant_id', data.data.tenant_id );
+									fillFieldIfEmpty( 'microsoft_entra_sso_client_id', data.data.client_id );
+									// Switch protocol radio to SAML since metadata was imported.
+									selectRadio( 'microsoft_entra_sso_auth_protocol', 'saml' );
+								}
 						} else {
 							var msg = data.data && data.data.message ? data.data.message : strings.import_error;
 							setStatus( status, msg, true );
@@ -85,6 +92,42 @@
 				);
 			}
 		);
+	}
+
+	/**
+	 * Set an input field's value if currently empty, and briefly highlight it.
+	 *
+	 * @param {string} fieldId Input element ID.
+	 * @param {string} value   Value to set.
+	 */
+	function fillFieldIfEmpty( fieldId, value ) {
+		if ( ! value ) {
+			return;
+		}
+		var input = document.getElementById( fieldId );
+		if ( ! input ) {
+			return;
+		}
+		input.value = value;
+		// Brief highlight to draw attention to the auto-filled field.
+		input.style.transition = 'background-color 0.3s';
+		input.style.backgroundColor = '#e7f5e9';
+		setTimeout( function () {
+			input.style.backgroundColor = '';
+		}, 2000 );
+	}
+
+	/**
+	 * Select a radio button by name and value.
+	 *
+	 * @param {string} name  Radio input name attribute.
+	 * @param {string} value Value to select.
+	 */
+	function selectRadio( name, value ) {
+		var radio = document.querySelector( 'input[name="' + name + '"][value="' + value + '"]' );
+		if ( radio ) {
+			radio.checked = true;
+		}
 	}
 
 	/**

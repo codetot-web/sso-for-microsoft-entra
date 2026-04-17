@@ -196,13 +196,16 @@ class Rate_Limiter {
 	 * @return int Maximum attempts (minimum 1).
 	 */
 	private static function get_max_attempts(): int {
+		// Read from plugin settings, fall back to 5.
+		$saved = (int) get_option( \MicrosoftEntraSSO\Plugin::OPTION_RATE_LIMIT_MAX, 5 );
+
 		/**
 		 * Filters the maximum number of authentication attempts allowed within
 		 * a single rate-limit window.
 		 *
-		 * @param int $attempts Default: 5.
+		 * @param int $attempts Value from settings or default 5.
 		 */
-		$attempts = (int) apply_filters( 'microsoft_entra_sso_rate_limit_attempts', 5 );
+		$attempts = (int) apply_filters( 'microsoft_entra_sso_rate_limit_attempts', $saved );
 
 		return max( 1, $attempts );
 	}
@@ -215,12 +218,15 @@ class Rate_Limiter {
 	 * @return int Window duration in seconds (minimum 60).
 	 */
 	private static function get_window(): int {
+		// Read from plugin settings, fall back to 900 (15 minutes).
+		$saved = (int) get_option( \MicrosoftEntraSSO\Plugin::OPTION_RATE_LIMIT_WINDOW, 900 );
+
 		/**
 		 * Filters the duration of the rate-limit window in seconds.
 		 *
-		 * @param int $window Default: 900 (15 minutes).
+		 * @param int $window Value from settings or default 900.
 		 */
-		$window = (int) apply_filters( 'microsoft_entra_sso_rate_limit_window', 900 );
+		$window = (int) apply_filters( 'microsoft_entra_sso_rate_limit_window', $saved );
 
 		return max( 60, $window );
 	}

@@ -274,7 +274,15 @@ class SAML_Client {
 		$id            = '_' . bin2hex( random_bytes( 16 ) );
 		$issue_instant = gmdate( 'Y-m-d\TH:i:s\Z' );
 		$acs_url       = esc_url( home_url( '/sso/saml-acs' ) );
-		$issuer        = esc_url( home_url() );
+
+		// The Issuer must match the "Identifier (Entity ID)" configured in
+		// the Azure Enterprise Application SAML settings. Entra defaults this
+		// to the Application ID URI (api://{client_id}) or the client_id itself.
+		// Using home_url() causes AADSTS700016 because Azure cannot find an
+		// application registered with that identifier.
+		$plugin    = \MicrosoftEntraSSO\Plugin::get_instance();
+		$client_id = (string) $plugin->get_option( \MicrosoftEntraSSO\Plugin::OPTION_CLIENT_ID, '' );
+		$issuer    = '' !== $client_id ? $client_id : esc_url( home_url() );
 
 		// Minimal AuthnRequest per SAML 2.0 core spec §3.4.
 		return '<?xml version="1.0" encoding="UTF-8"?>'
@@ -615,7 +623,13 @@ class SAML_Client {
 
 				// Security: verify our entity ID is listed in the audience to
 				// prevent an assertion issued for another SP from being accepted.
-				if ( $entity_id === $audience || home_url() === $audience ) {
+				// Accept the IdP entity_id, home_url(), or client_id as valid audiences
+				// since Entra may use the client_id as the audience value.
+				$client_id = (string) \MicrosoftEntraSSO\Plugin::get_instance()->get_option(
+					\MicrosoftEntraSSO\Plugin::OPTION_CLIENT_ID,
+					''
+				);
+				if ( $entity_id === $audience || home_url() === $audience || $client_id === $audience ) {
 					$audience_match = true;
 					break;
 				}

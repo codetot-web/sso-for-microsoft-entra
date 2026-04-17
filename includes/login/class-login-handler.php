@@ -136,6 +136,10 @@ class Login_Handler {
 		}
 
 		if ( is_wp_error( $auth_url ) ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional debug logging
+				error_log( 'MicrosoftEntraSSO build URL error [' . $protocol . ']: ' . $auth_url->get_error_code() . ' — ' . $auth_url->get_error_message() );
+			}
 			self::redirect_with_error( 'sso_build_url_failed' );
 			return;
 		}

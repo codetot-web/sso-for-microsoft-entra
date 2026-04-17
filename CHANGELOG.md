@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.2.0 (2026-04-17)
+
+### Added
+
+- Auto-extract Tenant ID and Client ID from federation metadata URL on import — eliminates manual entry of connection settings when using SAML metadata URL
+- Auto-switch authentication protocol to SAML when importing federation metadata
+- Rate Limiting settings section in admin — configurable max attempts and window duration from the settings page
+- Debug logging for `sso_build_url_failed` error to aid troubleshooting
+
+### Fixed
+
+- Strip UTF-8 BOM from Microsoft federation metadata XML responses that caused XML parsing to fail silently
+- Use Application (client) ID as SAML AuthnRequest Issuer instead of home URL — fixes AADSTS700016 "application not found" error
+- Accept client_id as valid SAML AudienceRestriction value for Entra compatibility
+
+### Changed
+
+- Rate limiter now reads max attempts and window from database options instead of hardcoded defaults
+
 ## 1.1.0 (2026-04-17)
 
 ### Security

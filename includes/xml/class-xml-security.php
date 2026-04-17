@@ -54,6 +54,13 @@ class XML_Security {
 	 *                                WP_Error describing the failure.
 	 */
 	public static function safe_load_xml( string $xml_string ) {
+		// ----- Strip UTF-8 BOM if present ----------------------------------- //
+		// Microsoft Entra federation metadata responses often include a UTF-8
+		// BOM (EF BB BF) which causes DOMDocument::loadXML() to fail.
+		if ( "\xEF\xBB\xBF" === substr( $xml_string, 0, 3 ) ) {
+			$xml_string = substr( $xml_string, 3 );
+		}
+
 		// ----- Size gate ---------------------------------------------------- //
 		if ( strlen( $xml_string ) > self::MAX_SIZE ) {
 			return new \WP_Error(

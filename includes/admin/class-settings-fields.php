@@ -155,6 +155,32 @@ class Settings_Fields {
 		);
 	}
 
+	/**
+	 * Return field definitions for the "Rate Limiting" section.
+	 *
+	 * @return array[]
+	 */
+	public static function rate_limiting_fields(): array {
+		return array(
+			array(
+				'id'          => \MicrosoftEntraSSO\Plugin::OPTION_RATE_LIMIT_MAX,
+				'label'       => __( 'Max Attempts', 'microsoft-entra-sso' ),
+				'type'        => 'number',
+				'min'         => '1',
+				'default'     => 5,
+				'description' => __( 'Maximum login attempts per IP before lockout. Default: 5.', 'microsoft-entra-sso' ),
+			),
+			array(
+				'id'          => \MicrosoftEntraSSO\Plugin::OPTION_RATE_LIMIT_WINDOW,
+				'label'       => __( 'Window (seconds)', 'microsoft-entra-sso' ),
+				'type'        => 'number',
+				'min'         => '60',
+				'default'     => 900,
+				'description' => __( 'Time window in seconds. Default: 900 (15 minutes).', 'microsoft-entra-sso' ),
+			),
+		);
+	}
+
 	// -------------------------------------------------------------------------
 	// Sanitization helpers
 	// -------------------------------------------------------------------------
@@ -246,6 +272,16 @@ class Settings_Fields {
 		}
 
 		return $clean;
+	}
+
+	/**
+	 * Sanitize a value as a positive integer (minimum 1).
+	 *
+	 * @param mixed $value Raw input.
+	 * @return int Positive integer, minimum 1.
+	 */
+	public static function sanitize_positive_int( $value ): int {
+		return max( 1, absint( $value ) );
 	}
 
 	// -------------------------------------------------------------------------

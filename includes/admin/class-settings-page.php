@@ -297,6 +297,42 @@ class Settings_Page {
 			);
 		}
 
+		// --- Section: Rate Limiting ---
+		add_settings_section(
+			'messo_section_rate_limiting',
+			__( 'Rate Limiting', 'microsoft-entra-sso' ),
+			array( self::class, 'render_section_rate_limiting' ),
+			self::PAGE_SLUG
+		);
+
+		register_setting(
+			self::OPTION_GROUP,
+			\MicrosoftEntraSSO\Plugin::OPTION_RATE_LIMIT_MAX,
+			array(
+				'sanitize_callback' => array( Settings_Fields::class, 'sanitize_positive_int' ),
+				'default'           => 5,
+			)
+		);
+		register_setting(
+			self::OPTION_GROUP,
+			\MicrosoftEntraSSO\Plugin::OPTION_RATE_LIMIT_WINDOW,
+			array(
+				'sanitize_callback' => array( Settings_Fields::class, 'sanitize_positive_int' ),
+				'default'           => 900,
+			)
+		);
+
+		foreach ( Settings_Fields::rate_limiting_fields() as $field ) {
+			add_settings_field(
+				$field['id'],
+				esc_html( $field['label'] ),
+				array( self::class, 'render_field' ),
+				self::PAGE_SLUG,
+				'messo_section_rate_limiting',
+				$field
+			);
+		}
+
 		// --- Section: Metadata Import ---
 		add_settings_section(
 			'messo_section_metadata',
@@ -429,10 +465,14 @@ class Settings_Page {
 	}
 
 	/**
-	 * Render intro text for the Metadata Import section.
+	 * Render intro text for the Rate Limiting section.
 	 *
 	 * @return void
 	 */
+	public static function render_section_rate_limiting(): void {
+		echo '<p>' . esc_html__( 'Control how many SSO login attempts are allowed per IP address within a time window.', 'microsoft-entra-sso' ) . '</p>';
+	}
+
 	public static function render_section_metadata(): void {
 		echo '<p>' . esc_html__( 'Import SAML federation metadata from your Entra app federation metadata URL. Only required when using the SAML 2.0 protocol.', 'microsoft-entra-sso' ) . '</p>';
 	}
@@ -459,6 +499,15 @@ class Settings_Page {
 					'<input type="text" id="%1$s" name="%1$s" value="%2$s" class="regular-text" />',
 					esc_attr( $id ),
 					esc_attr( (string) $value )
+				);
+				break;
+
+			case 'number':
+				printf(
+					'<input type="number" id="%1$s" name="%1$s" value="%2$s" class="small-text" min="%3$s" />',
+					esc_attr( $id ),
+					esc_attr( (string) $value ),
+					esc_attr( (string) ( $field['min'] ?? '1' ) )
 				);
 				break;
 
@@ -681,6 +730,48 @@ class Settings_Page {
 	}
 
 	// -------------------------------------------------------------------------
+	// URL parsing helpers
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Extract tenant ID and client ID from a federation metadata URL.
+	 *
+	 * Parses URLs in the format:
+	 * https://login.microsoftonline.com/{tenant_id}/federationmetadata/2007-06/federationmetadata.xml?appid={client_id}
+	 *
+	 * @param string $url Federation metadata URL.
+	 * @return array{tenant_id: string, client_id: string} Extracted IDs (empty strings if not found).
+	 */
+	private static function extract_ids_from_metadata_url( string $url ): array {
+		$result = array(
+			'tenant_id' => '',
+			'client_id' => '',
+		);
+
+		$parsed = wp_parse_url( $url );
+		if ( ! $parsed ) {
+			return $result;
+		}
+
+		// Extract tenant ID from path: /tenant-guid/federationmetadata/...
+		if ( ! empty( $parsed['path'] ) ) {
+			if ( preg_match( '#/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/#i', $parsed['path'], $matches ) ) {
+				$result['tenant_id'] = strtolower( $matches[1] );
+			}
+		}
+
+		// Extract client ID from query: ?appid=client-guid
+		if ( ! empty( $parsed['query'] ) ) {
+			parse_str( $parsed['query'], $query_params );
+			if ( ! empty( $query_params['appid'] ) && Settings_Fields::is_guid( $query_params['appid'] ) ) {
+				$result['client_id'] = strtolower( $query_params['appid'] );
+			}
+		}
+
+		return $result;
+	}
+
+	// -------------------------------------------------------------------------
 	// AJAX: Metadata import
 	// -------------------------------------------------------------------------
 
@@ -707,6 +798,9 @@ class Settings_Page {
 			);
 		}
 
+		// Extract tenant ID and client ID from the metadata URL before fetching.
+		$extracted = self::extract_ids_from_metadata_url( $url );
+
 		$dom = \MicrosoftEntraSSO\XML\XML_Security::safe_load_xml_from_url( $url );
 
 		if ( is_wp_error( $dom ) ) {
@@ -722,8 +816,39 @@ class Settings_Page {
 			self::sanitize_saml_metadata( $dom->saveXML() )
 		);
 
+		// Auto-populate tenant ID and client ID extracted from the URL.
+		if ( ! empty( $extracted['tenant_id'] ) ) {
+			update_option( \MicrosoftEntraSSO\Plugin::OPTION_TENANT_ID, $extracted['tenant_id'] );
+		}
+		if ( ! empty( $extracted['client_id'] ) ) {
+			update_option( \MicrosoftEntraSSO\Plugin::OPTION_CLIENT_ID, $extracted['client_id'] );
+		}
+
+		// Auto-switch to SAML protocol since federation metadata is SAML-specific.
+		update_option( \MicrosoftEntraSSO\Plugin::OPTION_AUTH_PROTOCOL, 'saml' );
+
+		// Build a descriptive success message.
+		$auto_filled = array();
+		if ( ! empty( $extracted['tenant_id'] ) ) {
+			$auto_filled[] = 'Tenant ID';
+		}
+		if ( ! empty( $extracted['client_id'] ) ) {
+			$auto_filled[] = 'Client ID';
+		}
+		$auto_filled[] = 'Protocol → SAML';
+
+		$message = __( 'Metadata imported successfully.', 'microsoft-entra-sso' );
+		if ( $auto_filled ) {
+			/* translators: %s: comma-separated list of auto-filled field names */
+			$message .= ' ' . sprintf( __( 'Auto-filled: %s.', 'microsoft-entra-sso' ), implode( ', ', $auto_filled ) );
+		}
+
 		wp_send_json_success(
-			array( 'message' => esc_html__( 'Metadata imported successfully.', 'microsoft-entra-sso' ) )
+			array(
+				'message'   => $message,
+				'tenant_id' => $extracted['tenant_id'],
+				'client_id' => $extracted['client_id'],
+			)
 		);
 	}
 }
