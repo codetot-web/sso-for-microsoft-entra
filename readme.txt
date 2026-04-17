@@ -4,7 +4,7 @@ Tags: sso, microsoft, entra, azure, openid-connect
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -88,6 +88,15 @@ Yes. The client secret is encrypted using AES-256-CBC with a key derived from yo
 
 == Changelog ==
 
+= 1.1.0 =
+* **Security:** Fix critical SAML Signature Wrapping (XSW) and XPath injection vulnerabilities.
+* **Security:** Fix double rate-limiting that locked users out after 2 successful logins.
+* **Security:** Add JWKS cache-refresh-on-failure for seamless key rotation handling.
+* **Security:** Use HKDF for encryption key derivation with domain separation.
+* **Security:** Require SAML AudienceRestriction, enforce HTTPS on discovery endpoints.
+* **Changed:** SSO endpoints moved from `wp-login.php` to `/sso/*` custom URLs (login, callback, saml-acs, logout).
+* **Fixed:** Uninstall routine now correctly cleans up user meta with `_messo_` prefix.
+
 = 1.0.0 =
 * Initial release.
 * OpenID Connect authentication with PKCE flow.
@@ -99,6 +108,9 @@ Yes. The client secret is encrypted using AES-256-CBC with a key derived from yo
 * WordPress.org Plugin Check (PCP) compliant.
 
 == Upgrade Notices ==
+
+= 1.1.0 =
+**Breaking changes:** (1) Update your Azure App Registration redirect URI to `https://yoursite.com/sso/callback`. (2) Re-enter your client secret in Settings → Entra SSO (encryption key derivation changed). (3) Re-activate the plugin or visit Settings → Permalinks to flush rewrite rules.
 
 = 1.0.0 =
 Initial release — no upgrade steps required.
