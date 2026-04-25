@@ -142,6 +142,24 @@ class XML_Security {
 			);
 		}
 
+		// Security (SSRF-1): only allow known Entra federation metadata hosts.
+		$host = strtolower( $parsed['host'] );
+		if ( ! self::is_allowed_metadata_host( $host ) ) {
+			return new \WP_Error(
+				'xml_url_blocked_host',
+				esc_html__( 'This host is not in the allowlist for SAML metadata retrieval. Only login.microsoftonline.com and login.windows.net are accepted.', 'sso-for-microsoft-entra' )
+			);
+		}
+
+		// Security (SSRF-2): resolve hostname and block private/internal IPs.
+		$resolved_ip = gethostbyname( $host );
+		if ( $resolved_ip === $host || self::is_private_ip( $resolved_ip ) ) {
+			return new \WP_Error(
+				'xml_url_private_ip',
+				esc_html__( 'The metadata URL resolves to a private or internal IP address.', 'sso-for-microsoft-entra' )
+			);
+		}
+
 		// ----- Remote fetch ------------------------------------------------- //
 		$response = wp_remote_get(
 			$url,
@@ -203,5 +221,45 @@ class XML_Security {
 		// Delegate to the hardened string parser (size check + XXE prevention
 		// are both applied inside safe_load_xml()).
 		return self::safe_load_xml( $body );
+	}
+
+	// -------------------------------------------------------------------------
+	// SSRF prevention helpers
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Check whether a hostname is in the allowlist for metadata retrieval.
+	 *
+	 * Only Microsoft Entra federation metadata endpoints are accepted.
+	 *
+	 * @param string $host Lowercase hostname to check.
+	 * @return bool True if the host is allowed.
+	 */
+	private static function is_allowed_metadata_host( string $host ): bool {
+		$allowed = array(
+			'login.microsoftonline.com',
+			'login.windows.net',
+			'login.microsoftonline.us',   // US Government cloud.
+			'login.chinacloudapi.cn',     // China cloud.
+		);
+
+		return in_array( $host, $allowed, true );
+	}
+
+	/**
+	 * Check whether an IP address belongs to a private or reserved range.
+	 *
+	 * Blocks RFC 1918, loopback, link-local, and other internal ranges to
+	 * prevent SSRF attacks that target internal infrastructure.
+	 *
+	 * @param string $ip IPv4 address to check.
+	 * @return bool True if the IP is private/reserved (should be blocked).
+	 */
+	private static function is_private_ip( string $ip ): bool {
+		return ! filter_var(
+			$ip,
+			FILTER_VALIDATE_IP,
+			FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+		);
 	}
 }

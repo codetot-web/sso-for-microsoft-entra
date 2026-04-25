@@ -219,14 +219,29 @@ class Settings_Fields {
 	}
 
 	/**
-	 * Sanitize a WordPress role slug.
+	 * Sanitize a WordPress role slug for SSO default role.
+	 *
+	 * Security: blocks 'administrator' to prevent privilege escalation
+	 * through SSO auto-provisioning misconfiguration.
 	 *
 	 * @param mixed $value Raw input.
-	 * @return string Role slug if it exists, otherwise 'subscriber'.
+	 * @return string Role slug if valid and not administrator, otherwise 'subscriber'.
 	 */
 	public static function sanitize_role( $value ): string {
 		$value = sanitize_text_field( (string) $value );
 		$roles = wp_roles()->get_names();
+
+		// Security: never allow administrator as the SSO default role.
+		if ( 'administrator' === $value ) {
+			add_settings_error(
+				\SFME\Plugin::OPTION_DEFAULT_ROLE,
+				'sfme_role_too_high',
+				__( 'Administrator cannot be set as the SSO default role. Reset to Subscriber.', 'sso-for-microsoft-entra' ),
+				'error'
+			);
+			return 'subscriber';
+		}
+
 		return isset( $roles[ $value ] ) ? $value : 'subscriber';
 	}
 

@@ -192,30 +192,45 @@ class SAML_Client {
 			);
 		}
 
-		// Verify signature on either the assertion or the response.
+		// Security (XSW-1): require the assertion itself to be signed.
+		// Accepting a response-level signature for an unsigned assertion
+		// enables XML Signature Wrapping: an attacker can move the signed
+		// assertion deeper in the tree and prepend a forged one that
+		// getFirstAssertion() would return instead.
+		$assertion_signature = $assertion->getSignature();
+
+		if ( ! $assertion_signature ) {
+			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( 'SFME SAML: assertion is not signed — rejecting to prevent XSW attacks.' );
+			}
+			return new \WP_Error(
+				'saml_unsigned_assertion',
+				esc_html__( 'SAML assertion must be individually signed. Response-level signatures alone are not accepted.', 'sso-for-microsoft-entra' )
+			);
+		}
+
+		// Verify the assertion signature against our stored certificates.
 		$signature_valid = false;
-		$signature       = $assertion->getSignature() ?? $response->getSignature();
 
-		if ( $signature ) {
-			foreach ( $certificates as $cert ) {
-				try {
-					$cert_clean = str_replace( array( "\n", "\r", ' ' ), '', $cert );
-					$pem        = "-----BEGIN CERTIFICATE-----\n"
-						. chunk_split( $cert_clean, 64, "\n" )
-						. "-----END CERTIFICATE-----\n";
+		foreach ( $certificates as $cert ) {
+			try {
+				$cert_clean = str_replace( array( "\n", "\r", ' ' ), '', $cert );
+				$pem        = "-----BEGIN CERTIFICATE-----\n"
+					. chunk_split( $cert_clean, 64, "\n" )
+					. "-----END CERTIFICATE-----\n";
 
-					$x509 = new \LightSaml\Credential\X509Certificate();
-					$x509->loadPem( $pem );
-					$key = \LightSaml\Credential\KeyHelper::createPublicKey( $x509 );
+				$x509 = new \LightSaml\Credential\X509Certificate();
+				$x509->loadPem( $pem );
+				$key = \LightSaml\Credential\KeyHelper::createPublicKey( $x509 );
 
-					if ( $signature->validate( $key ) ) {
-						$signature_valid = true;
-						break;
-					}
-				} catch ( \Exception $e ) {
-					// Try next certificate.
-					continue;
+				if ( $assertion_signature->validate( $key ) ) {
+					$signature_valid = true;
+					break;
 				}
+			} catch ( \Exception $e ) {
+				// Try next certificate.
+				continue;
 			}
 		}
 
@@ -226,12 +241,95 @@ class SAML_Client {
 			}
 			return new \WP_Error(
 				'saml_invalid_signature',
-				esc_html__( 'SAML response signature verification failed.', 'sso-for-microsoft-entra' )
+				esc_html__( 'SAML assertion signature verification failed.', 'sso-for-microsoft-entra' )
 			);
+		}
+
+		// Validate assertion conditions (NotBefore, NotOnOrAfter, Audience).
+		$conditions_result = self::validate_conditions_lightsaml( $assertion, $config );
+		if ( is_wp_error( $conditions_result ) ) {
+			return $conditions_result;
 		}
 
 		// Extract claims from the assertion using LightSaml objects.
 		return self::extract_claims_from_lightsaml( $assertion );
+	}
+
+	/**
+	 * Validate assertion conditions using a LightSaml Assertion object.
+	 *
+	 * Checks NotBefore, NotOnOrAfter, and AudienceRestriction to prevent
+	 * replay attacks and cross-SP assertion injection.
+	 *
+	 * @param \LightSaml\Model\Assertion\Assertion $assertion LightSaml assertion.
+	 * @param array                                 $config    SAML config with entity_id.
+	 * @return true|\WP_Error True when conditions pass, WP_Error otherwise.
+	 */
+	private static function validate_conditions_lightsaml( \LightSaml\Model\Assertion\Assertion $assertion, array $config ) {
+		$conditions = $assertion->getConditions();
+
+		if ( ! $conditions ) {
+			return new \WP_Error(
+				'saml_missing_conditions',
+				esc_html__( 'SAML assertion is missing a Conditions element.', 'sso-for-microsoft-entra' )
+			);
+		}
+
+		$now = time();
+
+		// ── NotBefore ─────────────────────────────────────────────────────── //
+		$not_before = $conditions->getNotBeforeTimestamp();
+
+		if ( null !== $not_before && $now < ( $not_before - self::CLOCK_SKEW ) ) {
+			return new \WP_Error(
+				'saml_assertion_not_yet_valid',
+				esc_html__( 'SAML assertion is not yet valid (NotBefore).', 'sso-for-microsoft-entra' )
+			);
+		}
+
+		// ── NotOnOrAfter ──────────────────────────────────────────────────── //
+		$not_on_or_after = $conditions->getNotOnOrAfterTimestamp();
+
+		if ( null !== $not_on_or_after && $now >= ( $not_on_or_after + self::CLOCK_SKEW ) ) {
+			return new \WP_Error(
+				'saml_assertion_expired',
+				esc_html__( 'SAML assertion has expired (NotOnOrAfter).', 'sso-for-microsoft-entra' )
+			);
+		}
+
+		// ── AudienceRestriction ───────────────────────────────────────────── //
+		$audience_restrictions = $conditions->getAllAudienceRestrictions();
+
+		if ( empty( $audience_restrictions ) ) {
+			return new \WP_Error(
+				'saml_missing_audience',
+				esc_html__( 'SAML assertion is missing an AudienceRestriction element.', 'sso-for-microsoft-entra' )
+			);
+		}
+
+		$client_id = (string) Plugin::get_instance()->get_option( Plugin::OPTION_CLIENT_ID, '' );
+		$entity_id = $config['entity_id'] ?? home_url();
+
+		$audience_match = false;
+
+		foreach ( $audience_restrictions as $restriction ) {
+			foreach ( $restriction->getAllAudience() as $audience ) {
+				$audience_value = $audience->getValue();
+				if ( $entity_id === $audience_value || home_url() === $audience_value || $client_id === $audience_value ) {
+					$audience_match = true;
+					break 2;
+				}
+			}
+		}
+
+		if ( ! $audience_match ) {
+			return new \WP_Error(
+				'saml_audience_mismatch',
+				esc_html__( 'SAML assertion audience does not match this service provider.', 'sso-for-microsoft-entra' )
+			);
+		}
+
+		return true;
 	}
 
 	/**
