@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.1.1 (2026-04-25)
+
+### Added
+
+- Admin notice warning when SAML protocol is active, recommending OIDC with PKCE (#10)
+- Vietnamese translations for all new security strings
+- SAML labeled as "Legacy", OIDC labeled as "Recommended" in protocol selector
+
+### Changed
+
+- Protocol description updated to explain SAML security risks (XSW, replay attacks)
+- Updated .pot template and recompiled .mo binary for Vietnamese
+
 ## 2.1.0 (2026-04-25)
 
 ### Security

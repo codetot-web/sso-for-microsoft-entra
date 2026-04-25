@@ -6,7 +6,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SSO for Microsoft Entra 2.0.0\n"
+"Project-Id-Version: SSO for Microsoft Entra 2.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/codetot-web/sso-for-microsoft-entra/"
 "issues\n"
 "POT-Creation-Date: 2026-04-17 16:28+0700\n"
@@ -77,16 +77,22 @@ msgid "Authentication Protocol"
 msgstr "Giao thức xác thực"
 
 #: includes/admin/class-settings-fields.php:80
-msgid "OpenID Connect (OIDC)"
-msgstr "OpenID Connect (OIDC)"
+msgid "OpenID Connect (OIDC) — Recommended"
+msgstr "OpenID Connect (OIDC) — Khuyến nghị"
 
 #: includes/admin/class-settings-fields.php:81
-msgid "SAML 2.0"
-msgstr "SAML 2.0"
+msgid "SAML 2.0 — Legacy"
+msgstr "SAML 2.0 — Cũ"
 
 #: includes/admin/class-settings-fields.php:84
-msgid "OIDC is recommended for most setups. SAML requires federation metadata."
-msgstr "OIDC được khuyến nghị cho hầu hết các cài đặt. SAML yêu cầu metadata liên kết."
+msgid ""
+"OIDC with PKCE is strongly recommended. SAML carries additional security "
+"risks (XML signature wrapping, replay attacks) and should only be used when "
+"required by your identity provider."
+msgstr ""
+"OIDC với PKCE được khuyến nghị sử dụng. SAML có nhiều rủi ro bảo mật "
+"(tấn công XML signature wrapping, replay) và chỉ nên sử dụng khi nhà "
+"cung cấp danh tính yêu cầu."
 
 #: includes/admin/class-settings-fields.php:88
 msgid "Force SSO"
@@ -829,3 +835,48 @@ msgstr "Hoặc"
 #: templates/login-button.php:64
 msgid "Use local login instead"
 msgstr "Sử dụng đăng nhập cục bộ"
+
+#. Security strings added in 2.1.0
+
+#: includes/auth/class-saml-client.php:209
+msgid ""
+"SAML assertion must be individually signed. Response-level signatures alone "
+"are not accepted."
+msgstr ""
+"SAML assertion phải được ký riêng. Chữ ký chỉ ở cấp response không được "
+"chấp nhận."
+
+#: includes/auth/class-saml-client.php:244
+msgid "SAML assertion signature verification failed."
+msgstr "Xác minh chữ ký SAML assertion thất bại."
+
+#: includes/xml/class-xml-security.php
+msgid ""
+"This host is not in the allowlist for SAML metadata retrieval. Only "
+"login.microsoftonline.com and login.windows.net are accepted."
+msgstr ""
+"Host này không nằm trong danh sách cho phép truy xuất SAML metadata. Chỉ "
+"chấp nhận login.microsoftonline.com và login.windows.net."
+
+#: includes/xml/class-xml-security.php
+msgid "The metadata URL resolves to a private or internal IP address."
+msgstr "URL metadata trỏ đến địa chỉ IP nội bộ hoặc riêng tư."
+
+#: includes/admin/class-settings-fields.php
+msgid ""
+"Administrator cannot be set as the SSO default role. Reset to Subscriber."
+msgstr ""
+"Không thể đặt Administrator làm vai trò mặc định SSO. Đã đặt lại thành "
+"Subscriber."
+
+#: includes/admin/class-admin-notices.php
+msgid ""
+"<strong>SSO for Microsoft Entra:</strong> You are using the SAML 2.0 "
+"protocol which carries additional security risks (XML signature wrapping, "
+"replay attacks). <strong>OpenID Connect (OIDC) with PKCE is strongly "
+"recommended.</strong> <a href=\"%s\">Change protocol &rarr;</a>"
+msgstr ""
+"<strong>SSO for Microsoft Entra:</strong> Bạn đang sử dụng giao thức SAML "
+"2.0 có nhiều rủi ro bảo mật (tấn công XML signature wrapping, replay). "
+"<strong>Khuyến nghị sử dụng OpenID Connect (OIDC) với PKCE.</strong> "
+"<a href=\"%s\">Đổi giao thức &rarr;</a>"

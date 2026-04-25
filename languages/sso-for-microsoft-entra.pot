@@ -6,7 +6,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SSO for Microsoft Entra 2.0.0\n"
+"Project-Id-Version: SSO for Microsoft Entra 2.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/codetot-web/sso-for-microsoft-entra/"
 "issues\n"
 "POT-Creation-Date: 2026-04-17 16:28+0700\n"
@@ -77,15 +77,18 @@ msgid "Authentication Protocol"
 msgstr ""
 
 #: includes/admin/class-settings-fields.php:80
-msgid "OpenID Connect (OIDC)"
+msgid "OpenID Connect (OIDC) — Recommended"
 msgstr ""
 
 #: includes/admin/class-settings-fields.php:81
-msgid "SAML 2.0"
+msgid "SAML 2.0 — Legacy"
 msgstr ""
 
 #: includes/admin/class-settings-fields.php:84
-msgid "OIDC is recommended for most setups. SAML requires federation metadata."
+msgid ""
+"OIDC with PKCE is strongly recommended. SAML carries additional security "
+"risks (XML signature wrapping, replay attacks) and should only be used when "
+"required by your identity provider."
 msgstr ""
 
 #: includes/admin/class-settings-fields.php:88
@@ -626,8 +629,14 @@ msgstr ""
 msgid "No signing certificate is configured for SAML verification."
 msgstr ""
 
-#: includes/auth/class-saml-client.php:229
-msgid "SAML response signature verification failed."
+#: includes/auth/class-saml-client.php:209
+msgid ""
+"SAML assertion must be individually signed. Response-level signatures alone "
+"are not accepted."
+msgstr ""
+
+#: includes/auth/class-saml-client.php:244
+msgid "SAML assertion signature verification failed."
 msgstr ""
 
 #: includes/auth/class-saml-client.php:254
@@ -785,6 +794,30 @@ msgstr ""
 
 #: includes/xml/class-xml-security.php:141
 msgid "Only HTTPS URLs are accepted for XML retrieval."
+msgstr ""
+
+#: includes/xml/class-xml-security.php
+msgid ""
+"This host is not in the allowlist for SAML metadata retrieval. Only "
+"login.microsoftonline.com and login.windows.net are accepted."
+msgstr ""
+
+#: includes/xml/class-xml-security.php
+msgid "The metadata URL resolves to a private or internal IP address."
+msgstr ""
+
+#: includes/admin/class-settings-fields.php
+msgid ""
+"Administrator cannot be set as the SSO default role. Reset to Subscriber."
+msgstr ""
+
+#: includes/admin/class-admin-notices.php
+#, php-format
+msgid ""
+"<strong>SSO for Microsoft Entra:</strong> You are using the SAML 2.0 "
+"protocol which carries additional security risks (XML signature wrapping, "
+"replay attacks). <strong>OpenID Connect (OIDC) with PKCE is strongly "
+"recommended.</strong> <a href=\"%s\">Change protocol &rarr;</a>"
 msgstr ""
 
 #: includes/xml/class-xml-security.php:159
