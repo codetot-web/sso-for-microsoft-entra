@@ -6,7 +6,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: SSO for Microsoft Entra 2.1.0\n"
+"Project-Id-Version: SSO for Microsoft Entra 2.1.1\n"
 "Report-Msgid-Bugs-To: https://github.com/codetot-web/sso-for-microsoft-entra/"
 "issues\n"
 "POT-Creation-Date: 2026-04-17 16:28+0700\n"
