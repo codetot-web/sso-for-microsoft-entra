@@ -214,8 +214,6 @@ class Settings_Page {
 				'nonce'         => wp_create_nonce( 'sfme_admin_nonce' ),
 				'dismiss_nonce' => wp_create_nonce( 'sfme_dismiss_notice' ),
 				'strings'       => array(
-					'add_row'     => __( 'Add Mapping', 'sso-for-microsoft-entra' ),
-					'remove_row'  => __( 'Remove', 'sso-for-microsoft-entra' ),
 					'show_secret' => __( 'Show', 'sso-for-microsoft-entra' ),
 					'hide_secret' => __( 'Hide', 'sso-for-microsoft-entra' ),
 				),
@@ -320,22 +318,6 @@ class Settings_Page {
 			self::OPTION_GROUP,
 			\SFME\Plugin::OPTION_USER_PROVISIONING,
 			array( 'sanitize_callback' => 'absint' )
-		);
-		register_setting(
-			self::OPTION_GROUP,
-			\SFME\Plugin::OPTION_DEFAULT_ROLE,
-			array(
-				'sanitize_callback' => array( Settings_Fields::class, 'sanitize_role' ),
-				'default'           => 'subscriber',
-			)
-		);
-		register_setting(
-			self::OPTION_GROUP,
-			\SFME\Plugin::OPTION_ROLE_MAP,
-			array(
-				'sanitize_callback' => array( Settings_Fields::class, 'sanitize_role_map' ),
-				'default'           => array(),
-			)
 		);
 
 		foreach ( Settings_Fields::provisioning_fields() as $field ) {
@@ -593,109 +575,11 @@ class Settings_Page {
 				echo '</select>';
 				break;
 
-			case 'select_roles':
-				$roles = wp_roles()->get_names();
-				printf( '<select id="%1$s" name="%1$s">', esc_attr( $id ) );
-				foreach ( $roles as $role_slug => $role_name ) {
-					printf(
-						'<option value="%1$s" %2$s>%3$s</option>',
-						esc_attr( $role_slug ),
-						selected( $role_slug, (string) $value, false ),
-						esc_html( translate_user_role( $role_name ) )
-					);
-				}
-				echo '</select>';
-				break;
-
-			case 'role_mapping':
-				self::render_role_mapping_field( $id, $value );
-				$desc = ''; // rendered inside the field.
-				break;
 		}
 
 		if ( $desc ) {
 			printf( '<p class="description">%s</p>', esc_html( $desc ) );
 		}
-	}
-
-	/**
-	 * Render the role-mapping repeatable rows.
-	 *
-	 * @param string $option_id   Option key.
-	 * @param mixed  $saved_value Currently saved mapping array.
-	 * @return void
-	 */
-	private static function render_role_mapping_field( string $option_id, $saved_value ): void {
-		$mapping = is_array( $saved_value ) ? $saved_value : array();
-		$roles   = wp_roles()->get_names();
-
-		echo '<div id="sfme-role-mapping" class="sfme-role-mapping">';
-		echo '<table class="sfme-role-mapping-table widefat striped">';
-		echo '<thead><tr>';
-		echo '<th>' . esc_html__( 'Entra Group Object ID', 'sso-for-microsoft-entra' ) . '</th>';
-		echo '<th>' . esc_html__( 'WordPress Role', 'sso-for-microsoft-entra' ) . '</th>';
-		echo '<th></th>';
-		echo '</tr></thead>';
-		echo '<tbody id="sfme-role-mapping-rows">';
-
-		if ( ! empty( $mapping ) ) {
-			foreach ( $mapping as $group_id => $role ) {
-				self::render_role_mapping_row( $option_id, (string) $group_id, (string) $role, $roles );
-			}
-		}
-
-		echo '</tbody>';
-		echo '</table>';
-
-		printf(
-			'<button type="button" id="sfme-add-role-mapping" class="button button-secondary" style="margin-top:8px">%s</button>',
-			esc_html__( 'Add Mapping', 'sso-for-microsoft-entra' )
-		);
-
-		// Hidden template row cloned by JS.
-		echo '<template id="sfme-role-row-template">';
-		self::render_role_mapping_row( $option_id, '', '', $roles );
-		echo '</template>';
-
-		echo '</div>';
-	}
-
-	/**
-	 * Render a single role-mapping table row.
-	 *
-	 * @param string $option_id Option key (used in input names).
-	 * @param string $group_id  Entra group Object ID value.
-	 * @param string $role      WordPress role slug value.
-	 * @param array  $roles     All available WP roles.
-	 * @return void
-	 */
-	private static function render_role_mapping_row( string $option_id, string $group_id, string $role, array $roles ): void {
-		echo '<tr class="sfme-role-mapping-row">';
-
-		printf(
-			'<td><input type="text" name="%s[rows][][group_id]" value="%s" class="regular-text" placeholder="%s" /></td>',
-			esc_attr( $option_id ),
-			esc_attr( $group_id ),
-			esc_attr__( 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 'sso-for-microsoft-entra' )
-		);
-
-		printf( '<td><select name="%s[rows][][role]">', esc_attr( $option_id ) );
-		foreach ( $roles as $role_slug => $role_name ) {
-			printf(
-				'<option value="%s" %s>%s</option>',
-				esc_attr( $role_slug ),
-				selected( $role_slug, $role, false ),
-				esc_html( translate_user_role( $role_name ) )
-			);
-		}
-		echo '</select></td>';
-
-		printf(
-			'<td><button type="button" class="button button-link-delete sfme-remove-row">%s</button></td>',
-			esc_html__( 'Remove', 'sso-for-microsoft-entra' )
-		);
-
-		echo '</tr>';
 	}
 
 	// -------------------------------------------------------------------------

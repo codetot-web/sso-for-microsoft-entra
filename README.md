@@ -11,7 +11,6 @@ Single Sign-On authentication for WordPress using Microsoft Entra ID (Azure AD) 
 
 - **OpenID Connect (OIDC)** with PKCE — the most secure OAuth 2.0 flow
 - **Automatic user provisioning** on first SSO login
-- **Role mapping** from Entra security groups to WordPress roles
 - **Encrypted** client-secret storage
 - **Configurable rate limiting** on login attempts
 - **Contextual Help tabs** built into the settings page

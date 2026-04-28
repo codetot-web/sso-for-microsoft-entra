@@ -79,14 +79,6 @@ class User_Handler {
 		// 5. Sync meta with the latest claims (updates even existing users).
 		self::update_user_meta( $user_id, $claims );
 
-		// 6. Sync role from role mapping.
-		$mapped_role = Role_Mapper::map_role( $claims );
-		$user        = new \WP_User( $user_id );
-
-		if ( $user->exists() && $mapped_role ) {
-			$user->set_role( $mapped_role );
-		}
-
 		return $user_id;
 	}
 
@@ -121,7 +113,6 @@ class User_Handler {
 		}
 
 		$display_name = self::build_display_name( $claims );
-		$role         = Role_Mapper::map_role( $claims );
 
 		$user_id = wp_insert_user(
 			array(
@@ -131,7 +122,7 @@ class User_Handler {
 				'display_name' => $display_name,
 				'first_name'   => isset( $claims['given_name'] ) ? (string) $claims['given_name'] : '',
 				'last_name'    => isset( $claims['family_name'] ) ? (string) $claims['family_name'] : '',
-				'role'         => $role,
+				'role'         => 'subscriber',
 			)
 		);
 

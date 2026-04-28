@@ -4,7 +4,7 @@ Tags: sso, microsoft, entra, azure, single-sign-on
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 8.1
-Stable tag: 2.4.0
+Stable tag: 2.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,6 @@ Single Sign-On authentication for WordPress using Microsoft Entra ID (Azure AD) 
 
 * **OpenID Connect (OIDC)** with PKCE — the most secure OAuth 2.0 flow, no client secret exposure.
 * Automatic user provisioning — create WordPress accounts on first SSO login.
-* Role mapping — assign WordPress roles based on Entra group membership.
 * Encrypted client-secret storage using WordPress secret keys.
 * Configurable rate limiting on SSO login attempts.
 * Optional auto-redirect from the WordPress login page directly to Entra.
@@ -71,13 +70,9 @@ No data is sent to any other third-party services. Authentication tokens are val
 
 No. It is designed for organisational accounts managed through a Microsoft Entra ID tenant.
 
-= Can I map Entra security groups to WordPress roles? =
-
-Yes. Go to **Settings → Entra SSO → Role Mapping** and enter the Object ID of each Entra group with the desired WordPress role. Group membership is evaluated at every login.
-
 = What happens when a user logs in for the first time? =
 
-If **Auto-Create Users** is enabled, the plugin creates a WordPress account using the email and display name from the Entra token, assigned the **Default Role** unless a group mapping matches.
+If **Auto-Create Users** is enabled, the plugin creates a WordPress account using the email and display name from the Entra token with the **Subscriber** role. Administrators can promote users to other roles manually.
 
 = Is the client secret stored securely? =
 
@@ -92,10 +87,13 @@ Yes. Encrypted using libsodium (XSalsa20-Poly1305) or AES-256-GCM with a key der
 == Screenshots ==
 
 1. **Settings page** — Connection, authentication, and user provisioning settings.
-2. **Role mapping** — Map Entra group Object IDs to WordPress roles.
-3. **Login page** — Microsoft sign-in button on the WordPress login form.
+2. **Login page** — Microsoft sign-in button on the WordPress login form.
 
 == Changelog ==
+
+= 2.5.0 =
+* **Breaking:** Removed role mapping and default role selector. All new SSO users are assigned the Subscriber role. Administrators promote users manually.
+* **Removed:** Role Mapping settings section and Role_Mapper class.
 
 = 2.4.0 =
 * **Added:** Settings link on the Plugins page next to Deactivate.

@@ -2,9 +2,8 @@
  * Microsoft Entra SSO — Admin JavaScript (vanilla JS, no jQuery).
  *
  * Handles:
- *  1. Role-mapping row add / remove.
- *  2. Client secret visibility toggle.
- *  3. Dismissible admin notices.
+ *  1. Client secret visibility toggle.
+ *  2. Dismissible admin notices.
  *
  * @package SFME
  */
@@ -24,43 +23,7 @@
 	var strings = sfme_admin.strings;
 
 	/* -----------------------------------------------------------------------
-		1. Role-mapping rows — add / remove
-		----------------------------------------------------------------------- */
-	function initRoleMapping() {
-		var container = document.getElementById( 'sfme-role-mapping' );
-		var addBtn    = document.getElementById( 'sfme-add-role-mapping' );
-		var tbody     = document.getElementById( 'sfme-role-mapping-rows' );
-		var template  = document.getElementById( 'sfme-role-row-template' );
-
-		if ( ! container || ! addBtn || ! tbody || ! template ) {
-			return;
-		}
-
-		// Delegate remove-row clicks to the tbody.
-		tbody.addEventListener(
-			'click',
-			function ( event ) {
-				var target = event.target;
-				if ( target && target.classList.contains( 'sfme-remove-row' ) ) {
-					var row = target.closest( '.sfme-role-mapping-row' );
-					if ( row ) {
-						row.parentNode.removeChild( row );
-					}
-				}
-			}
-		);
-
-		addBtn.addEventListener(
-			'click',
-			function () {
-				var clone = document.importNode( template.content, true );
-				tbody.appendChild( clone );
-			}
-		);
-	}
-
-	/* -----------------------------------------------------------------------
-		2. Client secret visibility toggle
+		1. Client secret visibility toggle
 		----------------------------------------------------------------------- */
 	function initSecretToggle() {
 		document.addEventListener(
@@ -93,7 +56,7 @@
 	}
 
 	/* -----------------------------------------------------------------------
-		3. Dismissible admin notices
+		2. Dismissible admin notices
 		----------------------------------------------------------------------- */
 	function initDismissibleNotices() {
 		document.addEventListener(
@@ -141,7 +104,6 @@
 	document.addEventListener(
 		'DOMContentLoaded',
 		function () {
-			initRoleMapping();
 			initSecretToggle();
 			initDismissibleNotices();
 		}

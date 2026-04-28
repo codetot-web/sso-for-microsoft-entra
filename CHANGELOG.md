@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.5.0 (2026-04-28)
+
+### Breaking
+
+- Removed role mapping and default role selector — all new SSO users are assigned the Subscriber role
+- Administrators promote users to other roles manually from the Users screen
+
+### Removed
+
+- `includes/user/class-role-mapper.php`
+- `OPTION_ROLE_MAP` and `OPTION_DEFAULT_ROLE` constants
+- Role Mapping settings section, `sanitize_role()`, `sanitize_role_map()`
+- Role mapping JS (add/remove rows)
+
 ## 2.4.0 (2026-04-28)
 
 ### Added

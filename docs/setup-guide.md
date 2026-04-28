@@ -77,21 +77,6 @@ Adding optional claims ensures the user's name and email are always included in 
    - `family_name`
 5. Click **Add**. If prompted to add Microsoft Graph permissions, accept.
 
-### 1.6 (Optional) Configure Group Memberships for Role Mapping
-
-If you want to automatically assign WordPress roles based on Microsoft Entra group membership:
-
-1. In the left sidebar, click **Token configuration**.
-2. Click **+ Add groups claim**.
-3. Select **Security groups** (or **All groups** if needed).
-4. Under **ID token**, keep the default format.
-5. Click **Add**.
-
-To find the Object ID of each group:
-1. Go to **Microsoft Entra ID → Groups**.
-2. Search for the group name and click on it.
-3. Copy the **Object ID** from the overview page.
-
 ---
 
 ## Part 2 — Plugin Configuration
@@ -120,22 +105,11 @@ The **Redirect URI** is displayed below these fields — it is auto-generated an
 ### 2.4 User Provisioning
 
 - **Auto-create users**: Enable this to automatically create a WordPress account the first time a user signs in via Microsoft Entra. If disabled, users must already have a WordPress account with a matching email address.
-- **Default role**: Set this to **Subscriber** unless your users need higher privileges by default.
+- All new SSO users are assigned the **Subscriber** role. Administrators can promote users to other roles manually from the Users screen.
 
 > New accounts will have the email address and display name from the Microsoft token. Users can change their WordPress display name later in their profile.
 
-### 2.5 Role Mapping (Optional)
-
-Map Microsoft Entra group membership to WordPress roles:
-
-1. Click **Add mapping**.
-2. In the **Group Object ID** field, enter the Object ID you copied in Step 1.6.
-3. In the **WordPress Role** field, select the role (e.g., `Editor`, `Administrator`).
-4. Repeat for each group you want to map.
-
-Role mapping is evaluated top-to-bottom. A user is assigned the first matching role. Users with no matching group receive the Default Role from Section 2.4.
-
-### 2.6 Login Button Customization
+### 2.5 Login Button Customization
 
 - **Button text**: Change the label shown on the login page (default: "Sign in with Microsoft").
 - **Button style**: Choose between the Microsoft-branded style and a plain WordPress-style button.

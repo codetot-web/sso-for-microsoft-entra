@@ -43,16 +43,6 @@ class Plugin {
 	const OPTION_AUTO_REDIRECT = 'sfme_auto_redirect';
 
 	/**
-	 * Role mapping JSON: maps Entra group object IDs to WP role slugs.
-	 */
-	const OPTION_ROLE_MAP = 'sfme_role_map';
-
-	/**
-	 * Default WordPress role assigned to newly provisioned users.
-	 */
-	const OPTION_DEFAULT_ROLE = 'sfme_default_role';
-
-	/**
 	 * Whether automatic user provisioning is enabled.
 	 */
 	const OPTION_USER_PROVISIONING = 'sfme_user_provisioning';
