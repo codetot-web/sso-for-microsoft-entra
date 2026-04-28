@@ -2,10 +2,9 @@
  * Microsoft Entra SSO — Admin JavaScript (vanilla JS, no jQuery).
  *
  * Handles:
- *  1. Metadata import via AJAX.
- *  2. Role-mapping row add / remove.
- *  3. Client secret visibility toggle.
- *  4. Dismissible admin notices.
+ *  1. Role-mapping row add / remove.
+ *  2. Client secret visibility toggle.
+ *  3. Dismissible admin notices.
  *
  * @package SFME
  */
@@ -25,132 +24,7 @@
 	var strings = sfme_admin.strings;
 
 	/* -----------------------------------------------------------------------
-		1. Metadata import
-		----------------------------------------------------------------------- */
-	function initMetadataImport() {
-		var btn    = document.getElementById( 'sfme-import-metadata' );
-		var urlIn  = document.getElementById( 'sfme_metadata_url' );
-		var status = document.getElementById( 'sfme-import-status' );
-
-		if ( ! btn || ! urlIn || ! status ) {
-			return;
-		}
-
-		btn.addEventListener(
-			'click',
-			function () {
-				var url = urlIn.value.trim();
-				if ( ! url ) {
-					setStatus( status, strings.import_error, true );
-					return;
-				}
-
-				btn.disabled = true;
-				setStatus( status, strings.importing, false );
-
-				var body = new URLSearchParams();
-				body.append( 'action', 'sfme_import_metadata' );
-				body.append( 'nonce',  nonce );
-				body.append( 'url',    url );
-
-				fetch(
-					ajaxUrl,
-					{
-						method:  'POST',
-						headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-						body:    body.toString(),
-					}
-				)
-				.then(
-					function ( response ) {
-						return response.json();
-					}
-				)
-				.then(
-					function ( data ) {
-						btn.disabled = false;
-						if ( data.success ) {
-								setStatus( status, data.data && data.data.message ? data.data.message : strings.import_done, false );
-								// Auto-populate connection fields extracted from the metadata URL.
-							if ( data.data ) {
-								fillFieldIfEmpty( 'sfme_tenant_id', data.data.tenant_id );
-								fillFieldIfEmpty( 'sfme_client_id', data.data.client_id );
-								// Switch protocol radio to SAML since metadata was imported.
-								selectRadio( 'sfme_auth_protocol', 'saml' );
-							}
-						} else {
-							var msg = data.data && data.data.message ? data.data.message : strings.import_error;
-							setStatus( status, msg, true );
-						}
-					}
-				)
-				.catch(
-					function () {
-						btn.disabled = false;
-						setStatus( status, strings.import_error, true );
-					}
-				);
-			}
-		);
-	}
-
-	/**
-	 * Set an input field's value if currently empty, and briefly highlight it.
-	 *
-	 * @param {string} fieldId Input element ID.
-	 * @param {string} value   Value to set.
-	 */
-	function fillFieldIfEmpty( fieldId, value ) {
-		if ( ! value ) {
-			return;
-		}
-		var input = document.getElementById( fieldId );
-		if ( ! input ) {
-			return;
-		}
-		input.value = value;
-		// Brief highlight to draw attention to the auto-filled field.
-		input.style.transition      = 'background-color 0.3s';
-		input.style.backgroundColor = '#e7f5e9';
-		setTimeout(
-			function () {
-				input.style.backgroundColor = '';
-			},
-			2000
-		);
-	}
-
-	/**
-	 * Select a radio button by name and value.
-	 *
-	 * @param {string} name  Radio input name attribute.
-	 * @param {string} value Value to select.
-	 */
-	function selectRadio( name, value ) {
-		var radio = document.querySelector( 'input[name="' + name + '"][value="' + value + '"]' );
-		if ( radio ) {
-			radio.checked = true;
-		}
-	}
-
-	/**
-	 * Update the status indicator element.
-	 *
-	 * @param {HTMLElement} el      Status element.
-	 * @param {string}      message Text to display.
-	 * @param {boolean}     isError Whether to apply error styling.
-	 */
-	function setStatus( el, message, isError ) {
-		el.textContent = message;
-		if ( isError ) {
-			el.classList.add( 'is-error' );
-		} else {
-			el.classList.remove( 'is-error' );
-		}
-	}
-
-	/* -----------------------------------------------------------------------
-		2. Role-mapping rows — add / remove
+		1. Role-mapping rows — add / remove
 		----------------------------------------------------------------------- */
 	function initRoleMapping() {
 		var container = document.getElementById( 'sfme-role-mapping' );
@@ -186,7 +60,7 @@
 	}
 
 	/* -----------------------------------------------------------------------
-		3. Client secret visibility toggle
+		2. Client secret visibility toggle
 		----------------------------------------------------------------------- */
 	function initSecretToggle() {
 		document.addEventListener(
@@ -219,7 +93,7 @@
 	}
 
 	/* -----------------------------------------------------------------------
-		4. Dismissible admin notices
+		3. Dismissible admin notices
 		----------------------------------------------------------------------- */
 	function initDismissibleNotices() {
 		document.addEventListener(
@@ -262,50 +136,14 @@
 	}
 
 	/* -----------------------------------------------------------------------
-		5. Protocol-dependent field visibility
-		----------------------------------------------------------------------- */
-	function initProtocolToggle() {
-		var radios = document.querySelectorAll( 'input[name="sfme_auth_protocol"]' );
-		if ( ! radios.length ) {
-			return;
-		}
-
-		var secretRow = document.getElementById( 'sfme_client_secret' );
-		if ( secretRow ) {
-			secretRow = secretRow.closest( 'tr' );
-		}
-
-		function toggle() {
-			var selected = document.querySelector( 'input[name="sfme_auth_protocol"]:checked' );
-			if ( ! selected || ! secretRow ) {
-				return;
-			}
-			if ( 'saml' === selected.value ) {
-				secretRow.style.display = 'none';
-			} else {
-				secretRow.style.display = '';
-			}
-		}
-
-		for ( var i = 0, len = radios.length; i < len; i++ ) {
-			radios[ i ].addEventListener( 'change', toggle );
-		}
-
-		// Run on load.
-		toggle();
-	}
-
-	/* -----------------------------------------------------------------------
 		Boot
 		----------------------------------------------------------------------- */
 	document.addEventListener(
 		'DOMContentLoaded',
 		function () {
-			initMetadataImport();
 			initRoleMapping();
 			initSecretToggle();
 			initDismissibleNotices();
-			initProtocolToggle();
 		}
 	);
 
