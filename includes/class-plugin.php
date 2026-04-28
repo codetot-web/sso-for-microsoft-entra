@@ -128,6 +128,7 @@ class Plugin {
 			add_action( 'admin_enqueue_scripts', array( 'SFME\Admin\Settings_Page', 'enqueue_assets' ) );
 			add_action( 'admin_notices', array( 'SFME\Admin\Admin_Notices', 'render_notices' ) );
 			add_action( 'wp_ajax_sfme_dismiss_notice', array( 'SFME\Admin\Admin_Notices', 'handle_dismiss' ) );
+			add_filter( 'plugin_action_links_' . plugin_basename( SFME_PLUGIN_FILE ), array( $this, 'add_settings_link' ) );
 		}
 	}
 
@@ -225,6 +226,22 @@ class Plugin {
 	 */
 	public function on_admin_menu(): void {
 		Admin\Settings_Page::add_menu_page();
+	}
+
+	/**
+	 * Add a "Settings" link to the plugin action links on the Plugins page.
+	 *
+	 * @param string[] $links Existing action links.
+	 * @return string[] Modified action links.
+	 */
+	public function add_settings_link( array $links ): array {
+		$settings_link = sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( admin_url( 'options-general.php?page=' . Admin\Settings_Page::PAGE_SLUG ) ),
+			esc_html__( 'Settings', 'sso-for-microsoft-entra' )
+		);
+		array_unshift( $links, $settings_link );
+		return $links;
 	}
 
 	// -------------------------------------------------------------------------
