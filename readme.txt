@@ -4,7 +4,7 @@ Tags: sso, microsoft, entra, azure, single-sign-on
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 8.1
-Stable tag: 2.2.0
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,13 @@ Yes. Encrypted using libsodium (XSalsa20-Poly1305) or AES-256-GCM with a key der
 3. **Login page** — Microsoft sign-in button on the WordPress login form.
 
 == Changelog ==
+
+= 2.3.0 =
+* **Fixed:** Validate `$_SERVER['REQUEST_METHOD']` before accessing it (Plugin Check compliance).
+* **Fixed:** Sanitize `redirect_to` parameter with `sanitize_url()`.
+* **Fixed:** Prefix template variables with `sfme_` to avoid global namespace collisions.
+* **Fixed:** Suppress expected slow DB query warning on Entra OID user lookup.
+* **Fixed:** Reduce tags to 5 maximum per WordPress.org guidelines.
 
 = 2.2.0 =
 * **Breaking:** Removed SAML 2.0 support. The plugin now uses OpenID Connect with PKCE exclusively.

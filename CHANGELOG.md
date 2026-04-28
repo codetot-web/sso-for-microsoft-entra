@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.3.0 (2026-04-28)
+
+### Fixed
+
+- Validate `$_SERVER['REQUEST_METHOD']` with `isset()` before accessing (Plugin Check compliance)
+- Sanitize `redirect_to` parameter with `sanitize_url()` before passing to `wp_validate_redirect()`
+- Prefix template variables (`$valid_styles`, `$style_class`, `$btn_css_class`) with `sfme_` to avoid global namespace collisions
+- Suppress expected `slow_db_query` warning on Entra OID user lookup — runs once per login, required for identity resolution
+- Reduce readme.txt tags from 6 to 5 (WordPress.org maximum)
+- Add `phpcs:ignore` to uninstall.php direct DB queries (expected for cleanup)
+
 ## 2.2.0 (2026-04-28)
 
 ### Breaking
