@@ -1,6 +1,6 @@
 === SSO for Microsoft Entra ===
 Contributors: khoipro, codetot
-Tags: sso, microsoft, entra, azure, openid-connect, single-sign-on
+Tags: sso, microsoft, entra, azure, single-sign-on
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 8.1

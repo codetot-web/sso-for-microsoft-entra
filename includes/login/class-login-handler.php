@@ -158,7 +158,7 @@ class Login_Handler {
 	 */
 	public static function handle_callback(): void {
 		// Security: verify this is a GET request; OIDC redirects are always GET.
-		if ( 'GET' !== $_SERVER['REQUEST_METHOD'] ) {
+		if ( ! isset( $_SERVER['REQUEST_METHOD'] ) || 'GET' !== $_SERVER['REQUEST_METHOD'] ) {
 			self::redirect_with_error( 'invalid_request_method' );
 			return;
 		}
@@ -402,10 +402,11 @@ class Login_Handler {
 	private static function get_redirect_url(): string {
 		// Security (M-2): use $_GET only — $_REQUEST merges cookies which could
 		// be abused for session fixation in edge cases.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Standard WordPress redirect_to parameter
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- Standard WordPress redirect_to parameter; validated by wp_validate_redirect() below.
 		$redirect_to = isset( $_GET['redirect_to'] )
-			? wp_unslash( $_GET['redirect_to'] )
+			? sanitize_url( wp_unslash( $_GET['redirect_to'] ) )
 			: '';
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		if ( '' !== $redirect_to ) {
 			// Security: wp_validate_redirect() only permits same-host URLs.

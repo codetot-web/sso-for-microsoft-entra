@@ -15,15 +15,15 @@
 defined( 'ABSPATH' ) || exit;
 
 // Map setting value to CSS class. Unknown values fall back to 'default'.
-$valid_styles  = array( 'default', 'dark', 'light' );
-$style_class   = in_array( $button_style, $valid_styles, true ) ? $button_style : 'default';
-$btn_css_class = ( 'dark' === $style_class ) ? 'sfme-btn sfme-btn-dark' : 'sfme-btn sfme-btn-light';
+$sfme_valid_styles  = array( 'default', 'dark', 'light' );
+$sfme_style_class   = in_array( $button_style, $sfme_valid_styles, true ) ? $button_style : 'default';
+$sfme_btn_css_class = ( 'dark' === $sfme_style_class ) ? 'sfme-btn sfme-btn-dark' : 'sfme-btn sfme-btn-light';
 ?>
 <div class="sfme-divider"><?php esc_html_e( 'Or', 'sso-for-microsoft-entra' ); ?></div>
 
 <div class="sfme-btn-wrap">
 	<a href="<?php echo esc_url( $sso_url ); // URL already validated by Login_Button::render(). ?>"
-		class="<?php echo esc_attr( $btn_css_class ); ?>"
+		class="<?php echo esc_attr( $sfme_btn_css_class ); ?>"
 		role="button"
 	>
 		<?php

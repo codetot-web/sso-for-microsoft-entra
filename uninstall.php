@@ -18,6 +18,7 @@ global $wpdb;
 // 1. Delete all plugin options
 // Matches any option whose name starts with "sfme_".
 // -------------------------------------------------------------------------
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Uninstall cleanup requires direct queries; no caching needed for DELETE.
 $wpdb->query(
 	"DELETE FROM {$wpdb->options}
 	 WHERE option_name LIKE 'microsoft\_entra\_sso\_%'"
@@ -25,8 +26,9 @@ $wpdb->query(
 
 // -------------------------------------------------------------------------
 // 2. Delete all user meta stored by this plugin
-// User_Meta keys are prefixed with "_sfme_" (not "_sfme_").
+// User_Meta keys are prefixed with "_sfme_".
 // -------------------------------------------------------------------------
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 $wpdb->query(
 	"DELETE FROM {$wpdb->usermeta}
 	 WHERE meta_key LIKE '\_messo\_%'"
@@ -37,6 +39,7 @@ $wpdb->query(
 // Transients are stored as options with the "_transient_" prefix; the
 // plugin namespaces its own transients under "_transient_sfme_".
 // -------------------------------------------------------------------------
+// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 $wpdb->query(
 	"DELETE FROM {$wpdb->options}
 	 WHERE option_name LIKE '\_transient\_messo\_%'
