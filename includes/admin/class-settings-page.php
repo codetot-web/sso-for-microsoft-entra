@@ -214,10 +214,10 @@ class Settings_Page {
 				'nonce'         => wp_create_nonce( 'sfme_admin_nonce' ),
 				'dismiss_nonce' => wp_create_nonce( 'sfme_dismiss_notice' ),
 				'strings'       => array(
-					'add_row'      => __( 'Add Mapping', 'sso-for-microsoft-entra' ),
-					'remove_row'   => __( 'Remove', 'sso-for-microsoft-entra' ),
-					'show_secret'  => __( 'Show', 'sso-for-microsoft-entra' ),
-					'hide_secret'  => __( 'Hide', 'sso-for-microsoft-entra' ),
+					'add_row'     => __( 'Add Mapping', 'sso-for-microsoft-entra' ),
+					'remove_row'  => __( 'Remove', 'sso-for-microsoft-entra' ),
+					'show_secret' => __( 'Show', 'sso-for-microsoft-entra' ),
+					'hide_secret' => __( 'Hide', 'sso-for-microsoft-entra' ),
 				),
 			)
 		);
@@ -420,7 +420,6 @@ class Settings_Page {
 				$field
 			);
 		}
-
 	}
 
 	// -------------------------------------------------------------------------
@@ -719,5 +718,4 @@ class Settings_Page {
 			include $template;
 		}
 	}
-
 }
