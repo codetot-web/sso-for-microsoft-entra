@@ -3,7 +3,7 @@
  * Plugin Name:       SSO for Microsoft Entra
  * Plugin URI:        https://github.com/codetot-web/sso-for-microsoft-entra
  * Description:       Single Sign-On authentication for WordPress using Microsoft Entra ID (Azure AD) via OpenID Connect with PKCE.
- * Version:           2.5.0
+ * Version:           2.5.1
  * Requires at least: 6.0
  * Requires PHP:      8.1
  * Author:            Khoi Pro, CODE TOT
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @var string
  */
-define( 'SFME_VERSION', '2.5.0' );
+define( 'SFME_VERSION', '2.5.1' );
 
 /**
  * Absolute path to the main plugin file.
@@ -130,6 +130,10 @@ register_activation_hook(
 			}
 		}
 
+		// Register the rewrite rule before flushing so it is included in the
+		// persisted rules. On normal page loads this is done via the init hook,
+		// but during activation init may not have fired yet.
+		add_rewrite_rule( '^sso/([a-z-]+)/?$', 'index.php?sfme_action=$matches[1]', 'top' );
 		flush_rewrite_rules();
 	}
 );
