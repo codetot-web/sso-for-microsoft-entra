@@ -2,7 +2,7 @@
 /**
  * Handles user lookup, creation, and synchronisation from Entra claims.
  *
- * Bridges the gap between a successful SSO authentication (OIDC or SAML)
+ * Bridges the gap between a successful SSO authentication (OIDC)
  * and a WordPress user session. The class follows this resolution order:
  *  1. Find an existing user by their Entra Object ID (OID).
  *  2. Fallback to email-based lookup (handles pre-existing WP accounts).

@@ -46,7 +46,7 @@ class User_Meta {
 	const ENTRA_GROUPS = '_sfme_entra_groups';
 
 	/**
-	 * Authentication method used during login: "oidc" or "saml".
+	 * Authentication method used during login: "oidc".
 	 *
 	 * @var string
 	 */

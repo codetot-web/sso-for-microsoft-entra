@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       SSO for Microsoft Entra
  * Plugin URI:        https://github.com/codetot-web/sso-for-microsoft-entra
- * Description:       Single Sign-On authentication for WordPress using Microsoft Entra ID (Azure AD). Supports OpenID Connect with PKCE and SAML 2.0.
- * Version:           2.1.1
+ * Description:       Single Sign-On authentication for WordPress using Microsoft Entra ID (Azure AD) via OpenID Connect with PKCE.
+ * Version:           2.2.0
  * Requires at least: 6.0
  * Requires PHP:      8.1
  * Author:            Khoi Pro, CODE TOT
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @var string
  */
-define( 'SFME_VERSION', '2.1.1' );
+define( 'SFME_VERSION', '2.2.0' );
 
 /**
  * Absolute path to the main plugin file.
@@ -113,12 +113,10 @@ register_activation_hook(
 			'microsoft_entra_sso_tenant_id'         => 'sfme_tenant_id',
 			'microsoft_entra_sso_client_id'         => 'sfme_client_id',
 			'microsoft_entra_sso_client_secret'     => 'sfme_client_secret',
-			'microsoft_entra_sso_auth_protocol'     => 'sfme_auth_protocol',
 			'microsoft_entra_sso_auto_redirect'     => 'sfme_auto_redirect',
 			'microsoft_entra_sso_role_map'          => 'sfme_role_map',
 			'microsoft_entra_sso_default_role'      => 'sfme_default_role',
 			'microsoft_entra_sso_user_provisioning' => 'sfme_user_provisioning',
-			'microsoft_entra_sso_saml_metadata'     => 'sfme_saml_metadata',
 			'microsoft_entra_sso_rate_limit_max'    => 'sfme_rate_limit_max',
 			'microsoft_entra_sso_rate_limit_window' => 'sfme_rate_limit_window',
 			'microsoft_entra_sso_button_text'       => 'sfme_button_text',
