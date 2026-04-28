@@ -17,8 +17,5 @@
 			"php": "8.1.0"
 		}
 	},
-	"require": {
-		"robrichards/xmlseclibs": "^3.1",
-		"litesaml/lightsaml": "^4.5"
-	}
+	"require": {}
 }
