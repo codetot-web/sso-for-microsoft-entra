@@ -228,10 +228,22 @@ class OIDC_Client {
 			);
 		}
 
+		// Per-app signing keys: Entra apps configured with optional claims
+		// or a custom token signing policy sign id_tokens with a key that
+		// only appears in the JWKS document when the appid query parameter
+		// is appended. Without it, the standard /discovery/v2.0/keys
+		// response omits that key and signature validation fails with
+		// jwt_signature_invalid even though the token is genuine.
+		// See https://learn.microsoft.com/azure/active-directory/develop/access-tokens#validating-tokens.
+		$jwks_uri_with_appid = $discovery['jwks_uri'];
+		if ( '' !== $client_id ) {
+			$jwks_uri_with_appid = add_query_arg( 'appid', $client_id, $jwks_uri_with_appid );
+		}
+
 		$expected = array(
 			'client_id' => $client_id,
 			'issuer'    => $discovery['issuer'],
-			'jwks_uri'  => $discovery['jwks_uri'],
+			'jwks_uri'  => $jwks_uri_with_appid,
 			'nonce'     => $nonce_from_token,
 		);
 
