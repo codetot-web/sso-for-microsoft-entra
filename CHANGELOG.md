@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.5.2 (2026-05-05)
+
+### Fixed
+
+- ID token signature verification failed (`jwt_signature_invalid`) for Entra apps configured with per-application signing keys (optional claims or custom token signing policy). The JWKS URI now includes `?appid={client_id}` so the app-specific signing key is returned. Without this, `/discovery/v2.0/keys` omits the key Entra used to sign the id_token and validation fails even though the token is genuine.
+
 ## 2.5.1 (2026-04-28)
 
 ### Fixed
