@@ -4,7 +4,7 @@ Tags: sso, microsoft, entra, azure, single-sign-on
 Requires at least: 6.0
 Tested up to: 6.9
 Requires PHP: 8.1
-Stable tag: 2.5.2
+Stable tag: 2.5.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,6 +90,9 @@ Yes. Encrypted using libsodium (XSalsa20-Poly1305) or AES-256-GCM with a key der
 2. **Login page** — Microsoft sign-in button on the WordPress login form.
 
 == Changelog ==
+
+= 2.5.3 =
+* **Fixed:** Remove `.gitkeep` placeholder files that were incorrectly included in the release package (WordPress Plugin Check: hidden_files).
 
 = 2.5.2 =
 * **Fixed:** ID token signature verification failed (`jwt_signature_invalid`) for Entra apps that use per-application signing keys. The plugin now appends `?appid={client_id}` when fetching the JWKS so the app-specific signing key is included.
