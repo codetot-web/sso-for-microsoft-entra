@@ -43,10 +43,19 @@ class User_Handler {
 		if ( ! $user_id ) {
 			$email = self::extract_email( $claims );
 
-			if ( $email ) {
+			if ( $email && self::is_email_linking_allowed( $claims ) ) {
 				$user = get_user_by( 'email', $email );
 				if ( $user instanceof \WP_User ) {
 					$user_id = $user->ID;
+
+					/**
+					 * Fires when an existing WordPress user is linked to an Entra
+					 * identity via email fallback.
+					 *
+					 * @param int   $user_id WordPress user ID.
+					 * @param array $claims  Decoded identity claims.
+					 */
+					do_action( 'sfme_user_linked_by_email', $user_id, $claims );
 				}
 			}
 		}
@@ -193,6 +202,40 @@ class User_Handler {
 	// -------------------------------------------------------------------------
 	// Private helpers
 	// -------------------------------------------------------------------------
+
+	/**
+	 * Determine whether email-based account linking is allowed.
+	 *
+	 * Email linking is allowed when:
+	 *  - The `sfme_allow_email_linking` filter returns true (default).
+	 *  - The IdP did not explicitly mark the email as unverified.
+	 *
+	 * @param array $claims Decoded identity claims.
+	 * @return bool
+	 */
+	private static function is_email_linking_allowed( array $claims ): bool {
+		/**
+		 * Filters whether an existing WordPress user may be linked to an Entra
+		 * identity by matching email addresses.
+		 *
+		 * Returning false forces OID-only matching, which is stricter.
+		 *
+		 * @param bool  $allowed Whether email linking is allowed. Default true.
+		 * @param array $claims  Decoded identity claims.
+		 */
+		$allowed = (bool) apply_filters( 'sfme_allow_email_linking', true, $claims );
+
+		if ( ! $allowed ) {
+			return false;
+		}
+
+		// If the IdP supplies an email_verified claim, honour it.
+		if ( isset( $claims['email_verified'] ) && ! $claims['email_verified'] ) {
+			return false;
+		}
+
+		return true;
+	}
 
 	/**
 	 * Extract a canonical email address from claims.
