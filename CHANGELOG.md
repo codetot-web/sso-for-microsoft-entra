@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.6.0 (2026-06-23)
+
+### Added
+
+- Structured database upgrade system: `SFME\Upgrader` class, `sfme_db_version` option, and versioned migration steps (#22)
+- OAuth state is now bound to the initiating browser session via an `sfme_oauth_session` cookie, mitigating cross-site login attacks (#24)
+- `sfme_allow_email_linking` filter to disable email-based account linking (#24)
+- `sfme_user_linked_by_email` action fired when an existing user is linked by email fallback (#24)
+- PHPUnit coverage for state/session binding and account linking controls
+
+### Changed
+
+- Minimum PHP requirement is now **8.0** (header, runtime check, admin notice, and `composer.json` aligned) (#23)
+- `uninstall.php` now targets only the current `sfme_` namespace; legacy prefixes are migrated by the upgrader instead (#22)
+
+### Fixed
+
+- `uninstall.php` no longer leaves orphaned current-version data behind (#22)
+
 ## 2.5.3 (2026-05-14)
 
 ### Fixed

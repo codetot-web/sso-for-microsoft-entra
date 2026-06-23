@@ -1,7 +1,7 @@
 # SSO for Microsoft Entra
 
 [![Lint & Test](https://github.com/codetot-web/sso-for-microsoft-entra/actions/workflows/ci.yml/badge.svg)](https://github.com/codetot-web/sso-for-microsoft-entra/actions/workflows/ci.yml)
-[![PHP 8.1+](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://www.php.net/)
+[![PHP 8.0+](https://img.shields.io/badge/PHP-8.0%2B-blue.svg)](https://www.php.net/)
 [![WordPress 6.0+](https://img.shields.io/badge/WordPress-6.0%2B-blue.svg)](https://wordpress.org/)
 [![License: GPL v2](https://img.shields.io/badge/License-GPLv2-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 
@@ -29,7 +29,7 @@ Single Sign-On authentication for WordPress using Microsoft Entra ID (Azure AD) 
 
 ## Requirements
 
-- PHP 8.1 or higher
+- PHP 8.0 or higher
 - WordPress 6.0 or higher
 - A Microsoft Entra ID (Azure AD) tenant
 
