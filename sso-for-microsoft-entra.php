@@ -5,7 +5,7 @@
  * Description:       Single Sign-On authentication for WordPress using Microsoft Entra ID (Azure AD) via OpenID Connect with PKCE.
  * Version:           2.5.3
  * Requires at least: 6.0
- * Requires PHP:      8.1
+ * Requires PHP:      8.0
  * Author:            Khoi Pro, CODE TOT
  * Author URI:        https://codetot.com
  * License:           GPL-2.0-or-later
@@ -60,16 +60,16 @@ define( 'SFME_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
  * Verify minimum PHP version requirement.
  *
  * Displays an admin notice and halts plugin loading when the server runs
- * a PHP version older than 7.4.
+ * a PHP version older than 8.0.
  */
-if ( version_compare( PHP_VERSION, '7.4', '<' ) ) {
+if ( version_compare( PHP_VERSION, '8.0', '<' ) ) {
 	add_action(
 		'admin_notices',
 		function () {
 			printf(
 				'<div class="notice notice-error"><p>%s</p></div>',
 				esc_html__(
-					'Microsoft Entra SSO requires PHP 7.4 or higher. Please upgrade PHP to activate this plugin.',
+					'Microsoft Entra SSO requires PHP 8.0 or higher. Please upgrade PHP to activate this plugin.',
 					'sso-for-microsoft-entra'
 				)
 			);
