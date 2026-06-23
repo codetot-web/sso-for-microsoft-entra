@@ -33,6 +33,14 @@ if ( ! defined( 'DAY_IN_SECONDS' ) ) {
 	define( 'DAY_IN_SECONDS', 86400 );
 }
 
+if ( ! defined( 'COOKIEPATH' ) ) {
+	define( 'COOKIEPATH', '/' );
+}
+
+if ( ! defined( 'COOKIE_DOMAIN' ) ) {
+	define( 'COOKIE_DOMAIN', '' );
+}
+
 if ( ! defined( 'SODIUM_CRYPTO_SECRETBOX_NONCEBYTES' ) ) {
 	// Only define the fallback when the sodium extension is unavailable.
 	if ( ! function_exists( 'sodium_crypto_secretbox' ) ) {
@@ -91,6 +99,43 @@ if ( ! function_exists( 'esc_html__' ) ) {
 	}
 }
 
+if ( ! function_exists( 'sanitize_text_field' ) ) {
+	/**
+	 * Stub for sanitize_text_field().
+	 *
+	 * @param string $str String to sanitize.
+	 * @return string
+	 */
+	function sanitize_text_field( string $str ): string {
+		return $str;
+	}
+}
+
+if ( ! function_exists( 'wp_unslash' ) ) {
+	/**
+	 * Stub for wp_unslash().
+	 *
+	 * @param string $value Value to unslash.
+	 * @return string
+	 */
+	function wp_unslash( string $value ): string {
+		return stripslashes( $value );
+	}
+}
+
+if ( ! function_exists( 'is_ssl' ) ) {
+	/**
+	 * Stub for is_ssl().
+	 *
+	 * @return bool
+	 */
+	function is_ssl(): bool {
+		return false;
+	}
+}
+
+$GLOBALS['_sfme_cookies'] = array();
+
 if ( ! function_exists( 'esc_html' ) ) {
 	/**
 	 * Stub for esc_html(). Returns the input string unchanged.
@@ -103,18 +148,120 @@ if ( ! function_exists( 'esc_html' ) ) {
 	}
 }
 
+if ( ! function_exists( 'add_filter' ) ) {
+	/**
+	 * Stub for add_filter(). Stores callbacks for apply_filters().
+	 *
+	 * @param string   $hook_name     Filter hook name.
+	 * @param callable $callback      Callback function.
+	 * @param int      $priority      Priority (ignored).
+	 * @param int      $accepted_args Number of accepted args (ignored).
+	 * @return true
+	 */
+	function add_filter( string $hook_name, callable $callback, int $priority = 10, int $accepted_args = 1 ): bool {
+		$GLOBALS['_sfme_filters'][ $hook_name ][] = $callback;
+		return true;
+	}
+}
+
+if ( ! function_exists( 'remove_all_filters' ) ) {
+	/**
+	 * Stub for remove_all_filters(). Clears stored callbacks.
+	 *
+	 * @param string $hook_name Filter hook name.
+	 * @return true
+	 */
+	function remove_all_filters( string $hook_name ): bool {
+		$GLOBALS['_sfme_filters'][ $hook_name ] = array();
+		return true;
+	}
+}
+
+$GLOBALS['_sfme_filters'] = array();
+
 if ( ! function_exists( 'apply_filters' ) ) {
 	/**
-	 * Stub for apply_filters(). Returns the first value argument unchanged.
+	 * Stub for apply_filters(). Runs registered callbacks in order.
 	 *
-	 * @param string $hook_name Filter hook name (ignored).
+	 * @param string $hook_name Filter hook name.
 	 * @param mixed  $value     Value to filter.
+	 * @param mixed  ...$args   Additional arguments.
 	 * @return mixed
 	 */
-	function apply_filters( string $hook_name, $value ) {
+	function apply_filters( string $hook_name, $value, ...$args ) {
+		$filters = $GLOBALS['_sfme_filters'][ $hook_name ] ?? array();
+		foreach ( $filters as $callback ) {
+			$value = call_user_func( $callback, $value, ...$args );
+		}
 		return $value;
 	}
 }
+
+if ( ! function_exists( 'do_action' ) ) {
+	/**
+	 * Stub for do_action(). Records fired actions for inspection.
+	 *
+	 * @param string $hook_name Action hook name.
+	 * @param mixed  ...$args   Arguments passed to the action.
+	 * @return void
+	 */
+	function do_action( string $hook_name, ...$args ): void {
+		$GLOBALS['_sfme_actions'][] = array(
+			'hook' => $hook_name,
+			'args' => $args,
+		);
+	}
+}
+
+$GLOBALS['_sfme_actions'] = array();
+
+if ( ! function_exists( 'get_user_by' ) ) {
+	/**
+	 * Stub for get_user_by(). Looks up users in a global test store.
+	 *
+	 * @param string $field Field to search by.
+	 * @param string $value Value to search for.
+	 * @return WP_User|false
+	 */
+	function get_user_by( string $field, string $value ) {
+		if ( 'email' !== $field ) {
+			return false;
+		}
+
+		$users = $GLOBALS['_sfme_users'] ?? array();
+		foreach ( $users as $user ) {
+			if ( isset( $user->user_email ) && $user->user_email === $value ) {
+				return $user;
+			}
+		}
+
+		return false;
+	}
+}
+
+if ( ! class_exists( 'WP_User' ) ) {
+	/**
+	 * Minimal WP_User stub for unit tests.
+	 */
+	class WP_User {
+		/** @var int */
+		public $ID;
+
+		/** @var string */
+		public $user_email;
+
+		/**
+		 * @param int    $id    User ID.
+		 * @param string $email User email.
+		 */
+		public function __construct( int $id, string $email ) {
+			$this->ID         = $id;
+			$this->user_email = $email;
+		}
+	}
+}
+
+$GLOBALS['_sfme_users'] = array();
 
 if ( ! function_exists( 'is_wp_error' ) ) {
 	/**
@@ -219,7 +366,7 @@ if ( ! function_exists( 'update_option' ) ) {
 $GLOBALS['_sfme_options'] = array();
 
 // ---------------------------------------------------------------------------
-// 4. WP_Error class stub
+// 5. WP_Error class stub
 // ---------------------------------------------------------------------------
 
 if ( ! class_exists( 'WP_Error' ) ) {
@@ -271,7 +418,13 @@ if ( ! class_exists( 'WP_Error' ) ) {
 }
 
 // ---------------------------------------------------------------------------
-// 5. Load the plugin autoloader
+// 5. Load namespaced function stubs
+// ---------------------------------------------------------------------------
+
+require_once __DIR__ . '/stubs/security-functions.php';
+
+// ---------------------------------------------------------------------------
+// 6. Load the plugin autoloader
 // ---------------------------------------------------------------------------
 
 require_once dirname( __DIR__ ) . '/includes/class-autoloader.php';

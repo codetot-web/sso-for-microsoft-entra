@@ -3,8 +3,8 @@ Contributors: khoipro, codetot
 Tags: sso, microsoft, entra, azure, single-sign-on
 Requires at least: 6.0
 Tested up to: 6.9
-Requires PHP: 8.1
-Stable tag: 2.5.3
+Requires PHP: 8.0
+Stable tag: 2.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -91,6 +91,13 @@ Yes. Encrypted using libsodium (XSalsa20-Poly1305) or AES-256-GCM with a key der
 
 == Changelog ==
 
+= 2.6.0 =
+* **Added:** Database upgrade system with `sfme_db_version` and automatic migration of legacy option prefixes.
+* **Added:** OAuth state is now bound to the initiating browser session via a short-lived `sfme_oauth_session` cookie.
+* **Added:** `sfme_allow_email_linking` filter and `sfme_user_linked_by_email` action for controlling email-based account linking.
+* **Changed:** Minimum PHP requirement is now **8.0**.
+* **Fixed:** `uninstall.php` now fully removes all current-version plugin data.
+
 = 2.5.3 =
 * **Fixed:** Remove `.gitkeep` placeholder files that were incorrectly included in the release package (WordPress Plugin Check: hidden_files).
 
@@ -171,6 +178,9 @@ Yes. Encrypted using libsodium (XSalsa20-Poly1305) or AES-256-GCM with a key der
 * OpenID Connect with PKCE, SAML 2.0, user provisioning, role mapping, rate limiting.
 
 == Upgrade Notices ==
+
+= 2.6.0 =
+No manual action required. Legacy `microsoft_entra_sso_*` options are migrated automatically to `sfme_*` on the next admin page load.
 
 = 2.2.0 =
 SAML 2.0 support has been removed. If you were using SAML, switch to OpenID Connect: create an Azure App Registration, set the redirect URI to `https://yoursite.com/sso/callback`, and enter your Tenant ID, Client ID, and Client Secret.

@@ -51,6 +51,13 @@ class State_Manager {
 	 */
 	const TTL = 600;
 
+	/**
+	 * Cookie name used to bind the OAuth state to the initiating browser.
+	 *
+	 * @var string
+	 */
+	const SESSION_COOKIE = 'sfme_oauth_session';
+
 	// -------------------------------------------------------------------------
 	// State
 	// -------------------------------------------------------------------------
@@ -67,12 +74,18 @@ class State_Manager {
 	 * which is not cryptographically secure and would make state tokens
 	 * predictable, undermining CSRF protection.
 	 *
+	 * Security (L3): the state transient is bound to a short-lived browser
+	 * cookie. A state value received in the callback is only accepted when
+	 * it was issued to the same browser session, mitigating cross-site
+	 * login attacks where an attacker forwards a valid state parameter.
+	 *
 	 * @return string A 32-character lowercase hex state token (128 bits of entropy).
 	 */
 	public static function create_state(): string {
 		$state = bin2hex( random_bytes( 16 ) );
 
-		set_transient( self::PREFIX_STATE . $state, '1', self::TTL );
+		$session_token = self::get_or_create_session_token();
+		set_transient( self::PREFIX_STATE . $state, hash( 'sha256', $session_token ), self::TTL );
 
 		return $state;
 	}
@@ -93,11 +106,16 @@ class State_Manager {
 			return false;
 		}
 
-		$key   = self::PREFIX_STATE . $state;
-		$value = get_transient( $key );
+		$session_token = self::get_session_token();
+		if ( '' === $session_token ) {
+			return false;
+		}
 
-		if ( false === $value ) {
-			// State not found – either expired, already used, or never issued.
+		$key           = self::PREFIX_STATE . $state;
+		$expected_hash = get_transient( $key );
+
+		if ( false === $expected_hash || ! hash_equals( $expected_hash, hash( 'sha256', $session_token ) ) ) {
+			// State not found, expired, already used, or bound to another session.
 			return false;
 		}
 
@@ -105,6 +123,62 @@ class State_Manager {
 		delete_transient( $key );
 
 		return true;
+	}
+
+	/**
+	 * Return the session token from the browser cookie, or an empty string.
+	 *
+	 * @return string
+	 */
+	private static function get_session_token(): string {
+		if ( isset( $_COOKIE[ self::SESSION_COOKIE ] ) && is_string( $_COOKIE[ self::SESSION_COOKIE ] ) ) {
+			return sanitize_text_field( wp_unslash( $_COOKIE[ self::SESSION_COOKIE ] ) );
+		}
+
+		return '';
+	}
+
+	/**
+	 * Get the existing session token from the browser cookie, or generate and
+	 * set a new one.
+	 *
+	 * @return string Session token.
+	 */
+	private static function get_or_create_session_token(): string {
+		$token = self::get_session_token();
+		if ( '' !== $token ) {
+			return $token;
+		}
+
+		$token = bin2hex( random_bytes( 16 ) );
+
+		/**
+		 * Filters the cookie parameters used for the OAuth session cookie.
+		 *
+		 * @param array $params Cookie parameters for setcookie().
+		 */
+		$params = apply_filters(
+			'sfme_oauth_session_cookie_params',
+			array(
+				'expires'  => time() + self::TTL,
+				'path'     => COOKIEPATH,
+				'domain'   => COOKIE_DOMAIN,
+				'secure'   => is_ssl(),
+				'httponly' => true,
+				'samesite' => 'Lax',
+			)
+		);
+
+		setcookie(
+			self::SESSION_COOKIE,
+			$token,
+			$params
+		);
+
+		// Make the cookie available immediately for the current request.
+		$_COOKIE[ self::SESSION_COOKIE ] = $token;
+
+		return $token;
 	}
 
 	// -------------------------------------------------------------------------
