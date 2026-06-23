@@ -114,6 +114,7 @@ class Plugin {
 		// Admin-only hooks — lazy-loaded to avoid unnecessary overhead.
 		if ( is_admin() ) {
 			add_action( 'admin_init', array( $this, 'on_admin_init' ) );
+			Upgrader::init();
 			add_action( 'admin_menu', array( $this, 'on_admin_menu' ) );
 			add_action( 'admin_enqueue_scripts', array( 'SFME\Admin\Settings_Page', 'enqueue_assets' ) );
 			add_action( 'admin_notices', array( 'SFME\Admin\Admin_Notices', 'render_notices' ) );

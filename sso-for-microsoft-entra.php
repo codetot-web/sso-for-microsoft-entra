@@ -26,6 +26,16 @@ defined( 'ABSPATH' ) || exit;
 define( 'SFME_VERSION', '2.5.3' );
 
 /**
+ * Database schema version.
+ *
+ * Increment when adding a new migration step in SFME\Upgrader so that
+ * the upgrade routine runs automatically on the next admin page load.
+ *
+ * @var int
+ */
+define( 'SFME_DB_VERSION', 1 );
+
+/**
  * Absolute path to the main plugin file.
  *
  * @var string
@@ -108,27 +118,9 @@ require_once SFME_PLUGIN_DIR . 'includes/class-autoloader.php';
 register_activation_hook(
 	__FILE__,
 	function () {
-		// Migrate options from old plugin key prefix (microsoft_entra_sso_*) to new (sfme_*).
-		$migrate_keys = array(
-			'microsoft_entra_sso_tenant_id'         => 'sfme_tenant_id',
-			'microsoft_entra_sso_client_id'         => 'sfme_client_id',
-			'microsoft_entra_sso_client_secret'     => 'sfme_client_secret',
-			'microsoft_entra_sso_auto_redirect'     => 'sfme_auto_redirect',
-			'microsoft_entra_sso_user_provisioning' => 'sfme_user_provisioning',
-			'microsoft_entra_sso_rate_limit_max'    => 'sfme_rate_limit_max',
-			'microsoft_entra_sso_rate_limit_window' => 'sfme_rate_limit_window',
-			'microsoft_entra_sso_button_text'       => 'sfme_button_text',
-			'microsoft_entra_sso_button_style'      => 'sfme_button_style',
-			'microsoft_entra_sso_allow_local_login' => 'sfme_allow_local_login',
-		);
-
-		foreach ( $migrate_keys as $old_key => $new_key ) {
-			$old_value = get_option( $old_key, null );
-			if ( null !== $old_value && false === get_option( $new_key, null ) ) {
-				update_option( $new_key, $old_value );
-				delete_option( $old_key );
-			}
-		}
+		// Run any pending database upgrades so a fresh activation always
+		// starts with the current schema.
+		\SFME\Upgrader::maybe_upgrade();
 
 		// Register the rewrite rule before flushing so it is included in the
 		// persisted rules. On normal page loads this is done via the init hook,
