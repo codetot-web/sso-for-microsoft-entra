@@ -4,7 +4,7 @@ Tags: sso, microsoft, entra, azure, single-sign-on
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 8.0
-Stable tag: 2.6.0
+Stable tag: 2.6.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -90,6 +90,9 @@ Yes. Encrypted using libsodium (XSalsa20-Poly1305) or AES-256-GCM with a key der
 2. **Login page** — Microsoft sign-in button on the WordPress login form.
 
 == Changelog ==
+
+= 2.6.1 =
+* **Fixed:** WordPress.org plugin directory assets (icon, banner) served from the correct SVN path.
 
 = 2.6.0 =
 * **Added:** Database upgrade system with `sfme_db_version` and automatic migration of legacy option prefixes.
