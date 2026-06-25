@@ -4,6 +4,7 @@ on:
   release:
     types:
       - published
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -20,4 +21,4 @@ jobs:
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SLUG: sso-for-microsoft-entra
-          ASSETS_DIR: assets
+          ASSETS_DIR: .wordpress-org

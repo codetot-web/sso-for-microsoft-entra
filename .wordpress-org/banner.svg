@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1544 500" width="1544" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#001d3d;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#003566;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0078d4;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3db4f0;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0078d4;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1544" height="500" fill="url(#bgGrad)"/>
+  <!-- Subtle grid pattern -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="100" x2="1544" y2="100"/>
+    <line x1="0" y1="200" x2="1544" y2="200"/>
+    <line x1="0" y1="300" x2="1544" y2="300"/>
+    <line x1="0" y1="400" x2="1544" y2="400"/>
+    <line x1="200" y1="0" x2="200" y2="500"/>
+    <line x1="400" y1="0" x2="400" y2="500"/>
+    <line x1="600" y1="0" x2="600" y2="500"/>
+    <line x1="800" y1="0" x2="800" y2="500"/>
+    <line x1="1000" y1="0" x2="1000" y2="500"/>
+    <line x1="1200" y1="0" x2="1200" y2="500"/>
+    <line x1="1400" y1="0" x2="1400" y2="500"/>
+  </g>
+  <!-- Shield icon (left area) -->
+  <g transform="translate(320, 100)">
+    <path d="M80 0 L16 36 L16 100 C16 148 44 180 80 192 C116 180 144 148 144 100 L144 36 Z"
+          fill="url(#shieldGrad2)" opacity="0.95"/>
+    <path d="M80 0 L16 36 L16 100 C16 148 44 180 80 192 L80 0Z"
+          fill="#ffffff" opacity="0.1"/>
+    <!-- Lock -->
+    <rect x="60" y="96" width="40" height="32" rx="4" fill="#ffffff"/>
+    <path d="M68 96 L68 80 C68 70 74 64 80 64 C86 64 92 70 92 80 L92 96"
+          fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="80" cy="110" r="5" fill="#0078d4"/>
+    <!-- Checkmark -->
+    <path d="M64 44 L76 56 L100 32" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <!-- Plugin name -->
+  <text x="540" y="210" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="56" font-weight="700" fill="#ffffff" letter-spacing="-1">Entra SSO</text>
+  <!-- Subtitle -->
+  <text x="540" y="260" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="24" fill="#8ec8f0" letter-spacing="0.5">Single Sign-On for WordPress</text>
+  <!-- Feature pills -->
+  <g transform="translate(540, 290)">
+    <rect x="0" y="0" width="90" height="30" rx="15" fill="#ffffff" opacity="0.15"/>
+    <text x="45" y="20" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#ffffff" text-anchor="middle">OIDC</text>
+    <rect x="100" y="0" width="110" height="30" rx="15" fill="#ffffff" opacity="0.15"/>
+    <text x="155" y="20" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#ffffff" text-anchor="middle">SAML 2.0</text>
+    <rect x="220" y="0" width="90" height="30" rx="15" fill="#ffffff" opacity="0.15"/>
+    <text x="265" y="20" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#ffffff" text-anchor="middle">PKCE</text>
+    <rect x="320" y="0" width="140" height="30" rx="15" fill="#ffffff" opacity="0.15"/>
+    <text x="390" y="20" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="13" fill="#ffffff" text-anchor="middle">Role Mapping</text>
+  </g>
+</svg>
