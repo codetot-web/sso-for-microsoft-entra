@@ -325,13 +325,39 @@ if ( ! function_exists( 'get_transient' ) ) {
 
 if ( ! function_exists( 'delete_transient' ) ) {
 	/**
-	 * Stub for delete_transient(). Removes key from in-memory store.
+	 * Stub for delete_transient().
 	 *
 	 * @param string $transient Transient name.
 	 * @return bool
 	 */
 	function delete_transient( string $transient ): bool {
 		unset( $GLOBALS['_sfme_transients'][ $transient ] );
+		return true;
+	}
+}
+
+if ( ! function_exists( 'wp_json_encode' ) ) {
+	/**
+	 * Stub for wp_json_encode().
+	 *
+	 * @param mixed $data Data to encode.
+	 * @return string
+	 */
+	function wp_json_encode( $data ): string {
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+		return json_encode( $data );
+	}
+}
+
+if ( ! function_exists( 'delete_option' ) ) {
+	/**
+	 * Stub for delete_option().
+	 *
+	 * @param string $option Option name.
+	 * @return bool
+	 */
+	function delete_option( string $option ): bool {
+		unset( $GLOBALS['_sfme_options'][ $option ] );
 		return true;
 	}
 }

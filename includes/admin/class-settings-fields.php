@@ -158,6 +158,22 @@ class Settings_Fields {
 		);
 	}
 
+	/**
+	 * Return field definitions for the \"Debug Log\" section.
+	 *
+	 * @return array[]
+	 */
+	public static function debug_log_fields(): array {
+		return array(
+			array(
+				'id'          => \SFME\Plugin::OPTION_DEBUG_LOG_ENABLED,
+				'label'       => __( 'Enable Debug Log', 'sso-for-microsoft-entra' ),
+				'type'        => 'checkbox',
+				'description' => __( 'Log the last 100 SSO authentication sessions. Disabled by default.', 'sso-for-microsoft-entra' ),
+			),
+		);
+	}
+
 	// -------------------------------------------------------------------------
 	// Sanitization helpers
 	// -------------------------------------------------------------------------

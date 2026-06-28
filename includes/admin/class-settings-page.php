@@ -13,6 +13,8 @@ namespace SFME\Admin;
 
 defined( 'ABSPATH' ) || exit;
 
+use SFME\Debug\Debug_Logger;
+
 /**
  * Class Settings_Page
  *
@@ -402,6 +404,34 @@ class Settings_Page {
 				$field
 			);
 		}
+
+		// --- Section: Debug Log ---
+		add_settings_section(
+			'sfme_section_debug_log',
+			__( 'Debug Log', 'sso-for-microsoft-entra' ),
+			array( self::class, 'render_section_debug_log' ),
+			self::PAGE_SLUG
+		);
+
+		register_setting(
+			self::OPTION_GROUP,
+			\SFME\Plugin::OPTION_DEBUG_LOG_ENABLED,
+			array( 'sanitize_callback' => 'absint' )
+		);
+
+		foreach ( Settings_Fields::debug_log_fields() as $field ) {
+			add_settings_field(
+				$field['id'],
+				esc_html( $field['label'] ),
+				array( self::class, 'render_field' ),
+				self::PAGE_SLUG,
+				'sfme_section_debug_log',
+				$field
+			);
+		}
+
+		// Register the AJAX clear-log action.
+		add_action( 'wp_ajax_sfme_clear_logs', array( self::class, 'handle_clear_logs' ) );
 	}
 
 	// -------------------------------------------------------------------------
@@ -474,6 +504,102 @@ class Settings_Page {
 	 */
 	public static function render_section_rate_limiting(): void {
 		echo '<p>' . esc_html__( 'Control how many SSO login attempts are allowed per IP address within a time window.', 'sso-for-microsoft-entra' ) . '</p>';
+	}
+
+	/**
+	 * Render the Debug Log section — toggle, log table, and clear button.
+	 *
+	 * When debug logging is enabled, the last 100 auth sessions are displayed
+	 * in a table. A button clears all entries via AJAX.
+	 *
+	 * @return void
+	 */
+	public static function render_section_debug_log(): void {
+		echo '<p>' . esc_html__( 'Log authentication events for troubleshooting. Not saved when disabled.', 'sso-for-microsoft-entra' ) . '</p>';
+
+		if ( ! Debug_Logger::is_enabled() ) {
+			return;
+		}
+
+		$logs = Debug_Logger::get_logs();
+
+		if ( empty( $logs ) ) {
+			echo '<p><em>' . esc_html__( 'No log entries yet.', 'sso-for-microsoft-entra' ) . '</em></p>';
+			return;
+		}
+
+		?>
+		<table class="widefat striped" style="margin-top:12px">
+			<thead>
+				<tr>
+					<th><?php esc_html_e( 'Time', 'sso-for-microsoft-entra' ); ?></th>
+					<th><?php esc_html_e( 'Event', 'sso-for-microsoft-entra' ); ?></th>
+					<th><?php esc_html_e( 'Status', 'sso-for-microsoft-entra' ); ?></th>
+					<th><?php esc_html_e( 'Email', 'sso-for-microsoft-entra' ); ?></th>
+					<th><?php esc_html_e( 'IP', 'sso-for-microsoft-entra' ); ?></th>
+					<th><?php esc_html_e( 'Error', 'sso-for-microsoft-entra' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ( $logs as $entry ) : ?>
+					<tr>
+						<td><?php echo esc_html( wp_date( 'Y-m-d H:i:s', (int) ( $entry['timestamp'] ?? 0 ) ) ); ?></td>
+						<td><?php echo esc_html( $entry['event'] ?? '' ); ?></td>
+						<td>
+							<?php if ( 'success' === ( $entry['status'] ?? '' ) ) : ?>
+								<span style="color:green"><?php esc_html_e( 'Success', 'sso-for-microsoft-entra' ); ?></span>
+							<?php else : ?>
+								<span style="color:red"><?php esc_html_e( 'Failure', 'sso-for-microsoft-entra' ); ?></span>
+							<?php endif; ?>
+						</td>
+						<td><?php echo esc_html( $entry['email'] ?? '' ); ?></td>
+						<td><?php echo esc_html( $entry['ip'] ?? '' ); ?></td>
+						<td><?php echo esc_html( $entry['error'] ?? '' ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+		<p>
+			<button type="button" class="button button-secondary" id="sfme-clear-logs">
+				<?php esc_html_e( 'Delete Log', 'sso-for-microsoft-entra' ); ?>
+			</button>
+		</p>
+		<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			$('#sfme-clear-logs').on('click', function() {
+				if ( ! confirm( '<?php echo esc_js( __( 'Are you sure you want to delete all log entries?', 'sso-for-microsoft-entra' ) ); ?>' ) ) {
+					return;
+				}
+				$.post(ajaxurl, {
+					action: 'sfme_clear_logs',
+					_ajax_nonce: '<?php echo esc_js( wp_create_nonce( 'sfme_clear_logs' ) ); ?>'
+				}, function(response) {
+					if ( response.success ) {
+						location.reload();
+					} else {
+						alert( response.data || '<?php echo esc_js( __( 'Failed to clear logs.', 'sso-for-microsoft-entra' ) ); ?>' );
+					}
+				});
+			});
+		});
+		</script>
+		<?php
+	}
+
+	/**
+	 * AJAX handler for clearing the debug log.
+	 *
+	 * @return void
+	 */
+	public static function handle_clear_logs(): void {
+		check_ajax_referer( 'sfme_clear_logs' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( -1 );
+		}
+
+		Debug_Logger::clear_logs();
+		wp_send_json_success();
 	}
 
 	// -------------------------------------------------------------------------

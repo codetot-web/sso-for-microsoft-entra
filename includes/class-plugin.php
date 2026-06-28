@@ -57,6 +57,16 @@ class Plugin {
 	 */
 	const OPTION_RATE_LIMIT_WINDOW = 'sfme_rate_limit_window';
 
+	/**
+	 * Whether debug logging is enabled.
+	 */
+	const OPTION_DEBUG_LOG_ENABLED = 'sfme_debug_log_enabled';
+
+	/**
+	 * Stored authentication log entries (JSON array).
+	 */
+	const OPTION_AUTH_LOGS = 'sfme_auth_logs';
+
 	// -------------------------------------------------------------------------
 	// Singleton
 	// -------------------------------------------------------------------------

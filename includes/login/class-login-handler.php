@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
 
 use SFME\Plugin;
 use SFME\Auth\OIDC_Client;
+use SFME\Debug\Debug_Logger;
 use SFME\Security\Rate_Limiter;
 use SFME\Security\State_Manager;
 use SFME\User\User_Handler;
@@ -185,6 +186,7 @@ class Login_Handler {
 		// internally, but we check here first to fail fast before building params.
 		$ip = self::get_client_ip();
 		if ( ! Rate_Limiter::check( $ip ) ) {
+			Debug_Logger::log( 'rate_limited', 'failure', '', 'rate_limited' );
 			self::redirect_with_error( 'rate_limited' );
 			return;
 		}
@@ -202,6 +204,7 @@ class Login_Handler {
 				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Intentional debug logging when WP_DEBUG is enabled
 				error_log( 'SFME OIDC callback error: ' . $claims->get_error_message() );
 			}
+			Debug_Logger::log( 'callback_error', 'failure', '', 'oidc_callback_failed' );
 			self::redirect_with_error( 'oidc_callback_failed' );
 			return;
 		}
@@ -358,6 +361,15 @@ class Login_Handler {
 		// Establish the WordPress session.
 		wp_set_current_user( $user_id );
 		wp_set_auth_cookie( $user_id, false );
+
+		// Log successful authentication.
+		$user = get_userdata( $user_id );
+		Debug_Logger::log(
+			'login_success',
+			'success',
+			$user ? $user->user_email : '',
+			''
+		);
 
 		/**
 		 * Fires after a user has been authenticated via Entra SSO.

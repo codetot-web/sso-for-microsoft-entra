@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.7.0 (2026-06-25)
+
+### Added
+
+- Debug Log tab in admin settings with Enable Debug Log toggle (default: off).
+- Log table showing last 100 authentication sessions (newest first) with timestamp, event, status, email, IP, and error columns.
+- Delete Log button to clear all entries via AJAX.
+- Logging hooks into login success, callback errors, rate-limit triggers, user provisioning, and user-not-found events.
+- Auth log entries are automatically cleared on plugin deactivation.
+- PHPUnit tests for the Debug_Logger class.
+
 ## 2.6.1 (2026-06-25)
 
 ### Fixed
