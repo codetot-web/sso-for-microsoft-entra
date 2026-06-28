@@ -16,6 +16,8 @@ namespace SFME\User;
 
 defined( 'ABSPATH' ) || exit;
 
+use SFME\Debug\Debug_Logger;
+
 /**
  * Class User_Handler
  *
@@ -75,6 +77,9 @@ class User_Handler {
 				$user_id = $result;
 			} else {
 				// 4. Auto-create disabled — cannot log this user in.
+				$email = self::extract_email( $claims );
+				Debug_Logger::log( 'user_not_found', 'failure', $email, 'provisioning_disabled' );
+
 				return new \WP_Error(
 					'sfme_user_not_found',
 					esc_html__(
@@ -149,6 +154,8 @@ class User_Handler {
 		if ( ! empty( $claims['groups'] ) && is_array( $claims['groups'] ) ) {
 			User_Meta::update( $user_id, User_Meta::ENTRA_GROUPS, $claims['groups'] );
 		}
+
+		Debug_Logger::log( 'user_created', 'success', $email, '' );
 
 		return $user_id;
 	}
