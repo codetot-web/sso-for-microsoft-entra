@@ -3,7 +3,7 @@
         'name' => 'codetot-web/sso-for-microsoft-entra',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'd40fa4ff7ef9296c57a935e320e744a5be1e7e63',
+        'reference' => '1d3483ccb5f5aee0efa295abde62cd706007e1ed',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'codetot-web/sso-for-microsoft-entra' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'd40fa4ff7ef9296c57a935e320e744a5be1e7e63',
+            'reference' => '1d3483ccb5f5aee0efa295abde62cd706007e1ed',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

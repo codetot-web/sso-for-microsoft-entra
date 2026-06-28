@@ -132,11 +132,18 @@ register_activation_hook(
 
 /**
  * Flush rewrite rules on deactivation to remove any custom endpoints the
- * plugin may have registered.
+ * plugin may have registered. Also clears stale auth log data so no
+ * sensitive session information (IP addresses, emails) remains in the DB
+ * after the plugin is deactivated.
  */
 register_deactivation_hook(
 	__FILE__,
 	function () {
 		flush_rewrite_rules();
+
+		// Clear auth log entries on deactivation.
+		if ( class_exists( '\\SFME\\Debug\\Debug_Logger' ) ) {
+			\SFME\Debug\Debug_Logger::clear_logs();
+		}
 	}
 );
