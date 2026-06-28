@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Log table showing last 100 authentication sessions (newest first) with timestamp, event, status, email, IP, and error columns.
 - Delete Log button to clear all entries via AJAX.
 - Logging hooks into login success, callback errors, rate-limit triggers, user provisioning, and user-not-found events.
+- Auth log entries are automatically cleared on plugin deactivation.
 - PHPUnit tests for the Debug_Logger class.
 
 ## 2.6.1 (2026-06-25)
